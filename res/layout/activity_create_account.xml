@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:text="Confirm"
         android:background="@null"
+        android:onClick="registerUserButton"
         android:textColor="@android:color/white"  />
 
     <EditText
@@ -22,6 +23,7 @@
         android:layout_centerVertical="true"
         android:ems="10"
         android:hint="Firstname"
+        android:textColor="@android:color/white"
         android:inputType="textPersonName" />
 
     <EditText
@@ -32,6 +34,7 @@
         android:layout_below="@+id/txtFirstname"
         android:ems="10"
         android:hint="Surname"
+        android:textColor="@android:color/white"
         android:inputType="textPersonName" >
 
         <requestFocus />
@@ -45,6 +48,7 @@
         android:layout_below="@+id/txtSurname"
         android:ems="10"
         android:hint="Email Address"
+        android:textColor="@android:color/white"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -55,6 +59,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Password"
+        android:textColor="@android:color/white"
         android:inputType="textPassword" />
 
     <EditText
@@ -65,6 +70,7 @@
         android:layout_below="@+id/txtPassword"
         android:ems="10"
         android:hint="Confirm Password"
+        android:textColor="@android:color/white"
         android:inputType="textPassword" />
 
 </RelativeLayout>

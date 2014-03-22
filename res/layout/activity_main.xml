@@ -10,20 +10,23 @@
     tools:context=".MainActivity" >
 
     <EditText
-        android:id="@+id/txtUsername"
+        android:id="@+id/txtUsernameLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white" 
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:hint="Enter Username" />
+        android:hint="Enter Username"
+        android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/txtPassword"
+        android:id="@+id/txtPasswordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtUsername"
-        android:layout_below="@+id/txtUsername"
+        android:textColor="@android:color/white" 
+        android:layout_alignLeft="@+id/txtUsernameLogin"
+        android:layout_below="@+id/txtUsernameLogin"
         android:ems="10"
         android:hint="Enter Password"
         android:inputType="textPassword" />
@@ -32,7 +35,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtPassword"
+        android:layout_below="@+id/txtPasswordLogin"
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:onClick="loginButton"
