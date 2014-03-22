@@ -1,17 +1,15 @@
 package procter.thomas.amulet;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
-public class MainActivity extends Activity {
+public class MenuActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_menu);
 	}
 
 	@Override
@@ -21,13 +19,5 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void createAccountButton(View view){
-		Intent intent = new Intent(this, CreateAccountActivity.class);
-		startActivity(intent);
-	}
-	
-	public void loginButton(View view){
-		Intent intent = new Intent(this, MenuActivity.class);////test only
-		startActivity(intent);
-	}
 }
+
