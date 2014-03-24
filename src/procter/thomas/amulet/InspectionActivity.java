@@ -4,11 +4,8 @@ package procter.thomas.amulet;
 import java.util.Random;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -17,18 +14,35 @@ public class InspectionActivity extends Activity{
 	private static ImageButton[] bottleButtons;
 	private static int blueBottlePos;
 	private int timeElapse = 1000;
+	private Handler handler = new Handler();
+	private boolean allowClick = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i("test", "test");
+		
 		super.onCreate(savedInstanceState);
-		Log.i("test", "test");
+		
 		setContentView(R.layout.placeholder);
 		Random random = new Random();
 		blueBottlePos = random.nextInt(4);
 		
 		
+		
 	}
+	
+	private Runnable runnable = new Runnable() {
+		   @Override
+		   public void run() {
+		      /* do what you need to do */
+			   for(int i = 0; i <bottleButtons.length; i++){
+					
+					bottleButtons[i].setImageResource(R.drawable.blank_bottle);
+				
+			}
+		      /* and here comes the "trick" */
+		      allowClick = true;
+		   }
+		};
 	
 	public void portraitLoad(){
 		setContentView(R.layout.activity_inspection_portrait);
@@ -69,9 +83,12 @@ public class InspectionActivity extends Activity{
 				bottleButtons[i].setImageResource(R.drawable.blank_bottle);
 			
 		}*/
+		
+		
 	}
 	
 	public void bottleLoad(){
+		allowClick = false;
 		Random random = new Random();
 		blueBottlePos = random.nextInt(5);
 		
@@ -83,30 +100,31 @@ public class InspectionActivity extends Activity{
 				bottleButtons[i].setImageResource(R.drawable.green_bottle);
 			}
 		}
+		handler.postDelayed(runnable, 3000);
 	}
 	
 	public void bottleButton0(View view){
-		if(blueBottlePos == 0){
+		if(blueBottlePos == 0 && allowClick == true){
 			bottleLoad();
 		}
 	}
 	public void bottleButton1(View view){
-		if(blueBottlePos == 1){
+		if(blueBottlePos == 1 && allowClick == true){
 			bottleLoad();
 		}
 	}
 	public void bottleButton2(View view){
-		if(blueBottlePos == 2){
+		if(blueBottlePos == 2 && allowClick == true){
 			bottleLoad();
 		}
 	}
 	public void bottleButton3(View view){
-		if(blueBottlePos == 3){
+		if(blueBottlePos == 3 && allowClick == true){
 			bottleLoad();
 		}
 	}
 	public void bottleButton4(View view){
-		if(blueBottlePos == 4){
+		if(blueBottlePos == 4 && allowClick == true){
 			bottleLoad();
 		}
 	}
