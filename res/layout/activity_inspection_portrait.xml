@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/inspection_backround_landscape_no_clouds" >
+
+    <ImageView
+        android:id="@+id/imgSkyInspectionPortrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitStart"
+        android:src="@drawable/sky" />
+
+    <ImageView
+        android:id="@+id/imgWallInspectionPortrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="center"
+        android:src="@drawable/wall" />
+
+    <ImageView
+        android:id="@+id/imgSolidWallInspectionPortrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="center"
+        android:src="@drawable/solid_wall" />
+
+    
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_alignParentLeft="true" />
+
+    <ImageButton
+        android:id="@+id/btnBottleInspectionPortrait3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_toRightOf="@+id/btnBottleInspectionPortrait2"
+        android:background="@null"
+        android:onClick="bottleButton3"
+        android:src="@drawable/green_bottle" />
+
+    <ImageButton
+        android:id="@+id/btnBottleInspectionPortrait2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:onClick="bottleButton2"
+        android:src="@drawable/green_bottle" />
+
+    <ImageButton
+        android:id="@+id/btnBottleInspectionPortrait1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_toLeftOf="@+id/btnBottleInspectionPortrait2"
+        android:background="@null"
+        android:onClick="bottleButton1"
+        android:src="@drawable/green_bottle" />
+
+    <ImageButton
+        android:id="@+id/btnBottleInspectionPortrait4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_toRightOf="@+id/btnBottleInspectionPortrait3"
+        android:background="@null"
+        android:onClick="bottleButton4"
+        android:src="@drawable/green_bottle" />
+
+    <ImageButton
+        android:id="@+id/btnBottleInspectionPortrait0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgSolidWallInspectionPortrait"
+        android:layout_toLeftOf="@+id/btnBottleInspectionPortrait1"
+        android:background="@null"
+        android:onClick="bottleButton0"
+        android:src="@drawable/green_bottle" />
+
+</RelativeLayout>

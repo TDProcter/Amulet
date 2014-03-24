@@ -1,8 +1,11 @@
 package procter.thomas.amulet;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 public class MenuActivity extends Activity {
 
@@ -19,5 +22,10 @@ public class MenuActivity extends Activity {
 		return true;
 	}
 
+	public void inspectionButton(View view){
+		
+		Intent intent = new Intent(this, InspectionActivity.class);
+		startActivity(intent);
+	}
 }
 

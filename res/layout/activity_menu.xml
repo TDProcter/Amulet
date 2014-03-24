@@ -30,6 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="13dp"
         android:background="@null"
+        android:onClick="inspectionButton"
         android:src="@drawable/inspection" />
 
 </RelativeLayout>
