@@ -1,5 +1,6 @@
 package procter.thomas.amulet;
 
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +10,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
@@ -47,19 +50,67 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		}
 		
 		String dataString =  builder.toString();
+		Log.i("data string", builder.toString());
+		return dataString;
+	}
+	
+	public String postHTTPData(String url, String postString){
+		StringBuilder builder = new StringBuilder();
 		
+		try{
+			
+		HttpClient client = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url);
+		
+		
+
+		
+		StringEntity httpString = new StringEntity(postString);
+		
+		httpPost.setEntity(httpString);
+		
+		httpPost.setHeader("Content-type", "application/json");
+		
+		HttpResponse response = client.execute(httpPost);
+		StatusLine statusLine = response.getStatusLine();
+	    int statusCode = statusLine.getStatusCode();
+	    Log.i("statusCode", statusCode +"");
+	    if (statusCode == 202) {
+	    	HttpEntity entity = response.getEntity();
+	       	InputStream content = entity.getContent();
+	       	BufferedReader reader = 
+				new BufferedReader(new InputStreamReader(content));
+	       	String line;
+	       	while ((line = reader.readLine()) != null) {
+	       	  builder.append(line);
+	       	}
+	   	} 
+		}
+		catch(Exception e){
+			Log.i("post error", "string entity error");
+		}
+		
+	    String dataString =  builder.toString();
+	    Log.i("data string", builder.toString());
 		return dataString;
 	}
 
 	
 	@Override
 	protected String doInBackground(String... urls) {
-		// TODO Auto-generated method stub
 		
 		String responseData = null;
 		if (urls.length > 0) 
 		{
-			responseData = getHTTPData(urls[0]);
+			
+			if(urls[0].toString().equals("GET")){
+				
+			responseData = getHTTPData(urls[1]);
+			}
+			else if(urls[0].equals("POST") && urls.length > 2){
+
+				responseData = postHTTPData(urls[1], urls[2]);
+			}
 		}
 		return responseData;
 

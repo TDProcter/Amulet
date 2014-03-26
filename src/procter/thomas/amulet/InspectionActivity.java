@@ -3,17 +3,26 @@ package procter.thomas.amulet;
 
 import java.util.Random;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class InspectionActivity extends Activity{
 	
 	private static ImageButton[] bottleButtons;
 	private static int blueBottlePos;
-	private int timeElapse = 1000;
+	private int[] gameSpeed = {1000, 750, 562, 422, 316, 237, 178, 133, 56, 42, 32};
+	private int gameSpeedPos;
+	private int lastGameSpeed = 0;
 	private Handler handler = new Handler();
 	private boolean allowClick = false;
 	
@@ -25,7 +34,7 @@ public class InspectionActivity extends Activity{
 		setContentView(R.layout.placeholder);
 		Random random = new Random();
 		blueBottlePos = random.nextInt(4);
-		
+		gameSpeedPos = 0;
 		
 		
 	}
@@ -41,8 +50,53 @@ public class InspectionActivity extends Activity{
 			}
 		      /* and here comes the "trick" */
 		      allowClick = true;
+		      
+		    	  if(gameSpeedPos  < gameSpeed.length - 1)
+		    	  {
+		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
+			    	  {
+		    			  gameSpeedPos++;
+		    	  
+		    			  
+			    	  }
+		    		  lastGameSpeed = gameSpeed[gameSpeedPos];
+		    	  }
+		    	  else{
+		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
+			    	  {
+		    			  Log.i("end clause", "end");
+		    			  endClause();
+			    	  }
+		    	  }
+		      
+		      Log.i("gamespeedpos: ", gameSpeedPos +"");
+		      Log.i("gamespeed: ", gameSpeed[gameSpeedPos]+"");
+		      
 		   }
 		};
+		
+		private Runnable bottleLoadRunnable = new Runnable() {
+			   @Override
+			   public void run() {
+			      /* do what you need to do */
+
+				   Random random = new Random();
+					blueBottlePos = random.nextInt(5);
+					
+					for(int i = 0; i <bottleButtons.length; i++){
+						if(i == blueBottlePos){
+							bottleButtons[i].setImageResource(R.drawable.blue_bottle);
+						}
+						else{
+							bottleButtons[i].setImageResource(R.drawable.green_bottle);
+						}
+					}
+					
+					handler.postDelayed(runnable, gameSpeed[gameSpeedPos]);
+					
+			      
+			   }
+			};
 	
 	public void portraitLoad(){
 		setContentView(R.layout.activity_inspection_portrait);
@@ -68,65 +122,121 @@ public class InspectionActivity extends Activity{
 		
 		
 	    
-		/*
-		while(!exit){
-			long currentTime = System.currentTimeMillis();
-			Log.i("time", currentTime + "  " + startTime + "  " + (currentTime-startTime)+"");
-			if((currentTime - startTime) > timeElapse){
-				exit=true;
-			}
-		}
 		
-		
-		for(int i = 0; i <bottleButtons.length; i++){
-			
-				bottleButtons[i].setImageResource(R.drawable.blank_bottle);
-			
-		}*/
 		
 		
 	}
 	
 	public void bottleLoad(){
 		allowClick = false;
-		Random random = new Random();
-		blueBottlePos = random.nextInt(5);
+		handler.postDelayed(bottleLoadRunnable, 2000);
 		
-		for(int i = 0; i <bottleButtons.length; i++){
-			if(i == blueBottlePos){
-				bottleButtons[i].setImageResource(R.drawable.blue_bottle);
-			}
-			else{
-				bottleButtons[i].setImageResource(R.drawable.green_bottle);
-			}
-		}
-		handler.postDelayed(runnable, 3000);
+		
+		
+		
 	}
 	
 	public void bottleButton0(View view){
-		if(blueBottlePos == 0 && allowClick == true){
-			bottleLoad();
+		if(allowClick ==true)
+		{
+			if(blueBottlePos == 0){
+				bottleLoad();
+			}
+			else{
+				endClause();
+			}
 		}
 	}
 	public void bottleButton1(View view){
-		if(blueBottlePos == 1 && allowClick == true){
+		if(allowClick ==true)
+		{
+		if(blueBottlePos == 1){
 			bottleLoad();
+		}
+		else{
+			endClause();
+		}
 		}
 	}
 	public void bottleButton2(View view){
-		if(blueBottlePos == 2 && allowClick == true){
+		if(allowClick ==true)
+		{
+			if(blueBottlePos == 2){
 			bottleLoad();
-		}
+			}
+			else{
+				endClause();
+			}
+			}
 	}
 	public void bottleButton3(View view){
-		if(blueBottlePos == 3 && allowClick == true){
+		if(allowClick ==true)
+		{
+		if(blueBottlePos == 3){
 			bottleLoad();
+		}
+		else{
+			endClause();
+		}
 		}
 	}
 	public void bottleButton4(View view){
+		if(allowClick ==true)
+		{
 		if(blueBottlePos == 4 && allowClick == true){
 			bottleLoad();
 		}
+		else{
+			endClause();
+		}
+		}
 	}
-
+	
+	private void endClause(){
+		setContentView(R.layout.activity_inspection_results);
+		TextView textView = (TextView) findViewById(R.id.txtInspectionScore);
+		textView.setText("Score: " + gameSpeed[gameSpeedPos] + "ms");
+	}
+	
+	public void postToServer(View v){
+		TextView unitsTextView = (TextView) findViewById(R.id.txtUnitsConsumed);
+		String unitsConsumed = unitsTextView.getText().toString();
+		Log.i("units", unitsConsumed+"");
+		JSONObject HTTPString = taskObject(unitsConsumed);
+		Log.i("JSON", HTTPString.toString());
+	}
+	
+	private JSONObject taskObject(String unitsConsumed){
+		JSONObject obj = new JSONObject();
+		String username = "jeff@alan.com";
+		String password = "no";
+		JSONObject tasks = new JSONObject();
+		String taskType = "inspection";
+		Time time = new Time();
+		time.setToNow();
+		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
+		
+		JSONArray taskArray = new JSONArray();
+		
+		Log.i("time: ", timeStamp);
+		String taskValue = gameSpeed[gameSpeedPos] + "";
+		
+		try {
+			tasks.put("tasktype",  taskType);
+			tasks.put("timestamp",  timeStamp);
+			tasks.put("taskvalue",  taskValue);
+			tasks.put("unitsconsumed",  unitsConsumed);
+			
+			taskArray.put(tasks);
+			obj.put("username", username);
+			obj.put("password", password);
+			obj.put("tasks", taskArray);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return obj;
+	}
 }

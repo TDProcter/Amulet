@@ -45,10 +45,14 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		
 		
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
-		retrieveData.execute("http://08309.net.dcs.hull.ac.uk/api/admin/details?" +
+		RetrieveHTTPDataAsync retrievesData = new RetrieveHTTPDataAsync(this);
+		 retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/details?" +
 				"username=" + username +
-				"&password=" + password);
-
+				"&password=" + password); 
+		Log.i("tag", "preexecute");/*
+		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", "{\"username\":\"jeff@alan.com\",\"password\":\"no\",\"tasks\":[{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 14:59:30.252\",\"taskvalue\":\"133\",\"unitsconsumed\":\"5\"},{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 18:59:30.252\",\"taskvalue\":\"404\",\"unitsconsumed\":\"15\"}]}");
+		retrievesData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory?username=jeff@alan.com&password=no&tasktype=inspection");
+		*/
 		String httpData = "";
 		
 			try {
