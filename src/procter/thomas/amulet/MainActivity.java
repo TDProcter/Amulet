@@ -70,6 +70,9 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		
 		
 		if(httpData.contains("{\"FullName\":")){
+			SharedPreferencesWrapper.saveToPrefs(this, "username", username);
+			SharedPreferencesWrapper.saveToPrefs(this, "password", password);
+			
 			Intent intent = new Intent(this, MenuActivity.class);////test only
 			startActivity(intent);
 			
@@ -77,6 +80,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(this, text, duration);
 			toast.show();
+			
 		}
 		else if(httpData.contains("{\"Error\":\"User or password unknown\"}")){
 			
