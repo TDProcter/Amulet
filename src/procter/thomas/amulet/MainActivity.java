@@ -2,6 +2,9 @@ package procter.thomas.amulet;
 
 import java.util.concurrent.ExecutionException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +21,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		checkIfLoggedIn();
 	}
 
 	@Override
@@ -40,12 +44,21 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		
 		String username  = usernameTextView.getText().toString();
 		String password = passwordTextView.getText().toString();
+		Login(username, password);
 		
-			
-		
-		
+	}
+
+	private void checkIfLoggedIn(){
+		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
+		if(!(username.equals("Default")))
+		{
+			Login(username, password);
+		}
+	}
+	private void Login(String username, String password){
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
-		RetrieveHTTPDataAsync retrievesData = new RetrieveHTTPDataAsync(this);
+		
 		 retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/details?" +
 				"username=" + username +
 				"&password=" + password); 
@@ -53,26 +66,25 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", "{\"username\":\"jeff@alan.com\",\"password\":\"no\",\"tasks\":[{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 14:59:30.252\",\"taskvalue\":\"133\",\"unitsconsumed\":\"5\"},{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 18:59:30.252\",\"taskvalue\":\"404\",\"unitsconsumed\":\"15\"}]}");
 		retrievesData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory?username=jeff@alan.com&password=no&tasktype=inspection");
 		*/
-		String httpData = "";
 		
-			try {
-				httpData = retrieveData.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		
 		//int openBracePos = httpData.indexOf('{');
 		//httpData = httpData.substring(openBracePos+2, httpData.length()-2);
-		
-		
-		if(httpData.contains("{\"FullName\":")){
-			SharedPreferencesWrapper.saveToPrefs(this, "username", username);
-			SharedPreferencesWrapper.saveToPrefs(this, "password", password);
 			
+		
+		
+		
+		
+	}
+	private void processObject(JSONObject result){
+		try {
+		if(result.has("FullName")){
+			if(!(SharedPreferencesWrapper.getFromPrefs(this, "username", "Default").equals("Default")))
+			{
+				SharedPreferencesWrapper.saveToPrefs(this, "username", result.getString("FullName"));
+				SharedPreferencesWrapper.saveToPrefs(this, "password", result.getString("UserName"));
+			}
+			//stuffs gone wrong here 
 			Intent intent = new Intent(this, MenuActivity.class);////test only
 			startActivity(intent);
 			
@@ -80,10 +92,9 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(this, text, duration);
 			toast.show();
-			
+			Log.i("json", result.getString("FullName"));
 		}
-		else if(httpData.contains("{\"Error\":\"User or password unknown\"}")){
-			
+		else if (result.has("Error")){
 			String text = "User or password unknown";
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(this, text, duration);
@@ -95,14 +106,24 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			Toast toast = Toast.makeText(this, text, duration);
 			toast.show();
 		}
-		
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-	
 	
 	@Override
 	public void onTaskCompleted(String httpData) {
-		// TODO Auto-generated method stub
+
+		try {
+			JSONObject result = new JSONObject(httpData);
+			processObject(result);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }
