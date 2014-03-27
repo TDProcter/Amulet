@@ -50,63 +50,57 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 
 	private void checkIfLoggedIn(){
 		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
-		String password = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "Default");
 		if(!(username.equals("Default")))
 		{
+			SharedPreferencesWrapper.removeFromPrefs(this, "username");
+			SharedPreferencesWrapper.removeFromPrefs(this, "password");
 			Login(username, password);
 		}
 	}
 	private void Login(String username, String password){
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
 		
+			
+			SharedPreferencesWrapper.saveToPrefs(this, "username", username);
+			SharedPreferencesWrapper.saveToPrefs(this, "password", password);
+		
+		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
+		Log.i("test", username + " " + password);
 		 retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/details?" +
 				"username=" + username +
 				"&password=" + password); 
-		Log.i("tag", "preexecute");/*
+		Log.i("tag", "preexecute");
+		/*
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", "{\"username\":\"jeff@alan.com\",\"password\":\"no\",\"tasks\":[{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 14:59:30.252\",\"taskvalue\":\"133\",\"unitsconsumed\":\"5\"},{\"tasktype\":\"inspection\",\"timestamp\":\"2010-03-08 18:59:30.252\",\"taskvalue\":\"404\",\"unitsconsumed\":\"15\"}]}");
 		retrievesData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory?username=jeff@alan.com&password=no&tasktype=inspection");
 		*/
-		
-		
-		//int openBracePos = httpData.indexOf('{');
-		//httpData = httpData.substring(openBracePos+2, httpData.length()-2);
-			
-		
-		
-		
-		
 	}
 	private void processObject(JSONObject result){
+		Log.i("test", "process object");
 		try {
-		if(result.has("FullName")){
-			if(!(SharedPreferencesWrapper.getFromPrefs(this, "username", "Default").equals("Default")))
-			{
-				SharedPreferencesWrapper.saveToPrefs(this, "username", result.getString("FullName"));
-				SharedPreferencesWrapper.saveToPrefs(this, "password", result.getString("UserName"));
+			if(result.has("FullName")){
+			
+				Intent intent = new Intent(this, MenuActivity.class);////test only
+				startActivity(intent);
+			
+				String text = "Login Succesful";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+				Log.i("json", result.getString("FullName"));
 			}
-			//stuffs gone wrong here 
-			Intent intent = new Intent(this, MenuActivity.class);////test only
-			startActivity(intent);
-			
-			String text = "Login Succesful";
-			int duration = Toast.LENGTH_SHORT;
-			Toast toast = Toast.makeText(this, text, duration);
-			toast.show();
-			Log.i("json", result.getString("FullName"));
-		}
-		else if (result.has("Error")){
-			String text = "User or password unknown";
-			int duration = Toast.LENGTH_SHORT;
-			Toast toast = Toast.makeText(this, text, duration);
-			toast.show();
-		}
-		else{
-			String text = "Unknown Error";
-			int duration = Toast.LENGTH_SHORT;
-			Toast toast = Toast.makeText(this, text, duration);
-			toast.show();
-		}
-			
+			else if (result.has("Error")){
+				String text = "User or password unknown";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+			}
+			else{
+				String text = "Unknown Error";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,6 +111,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 	public void onTaskCompleted(String httpData) {
 
 		try {
+			Log.i("ontaskcompleted", httpData);
 			JSONObject result = new JSONObject(httpData);
 			processObject(result);
 			

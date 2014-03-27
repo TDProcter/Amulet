@@ -105,10 +105,9 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 			
 			if(urls[0].toString().equals("GET")){
 				
-			responseData = getHTTPData(urls[1]);
+				responseData = getHTTPData(urls[1]);
 			}
 			else if(urls[0].equals("POST") && urls.length > 2){
-
 				responseData = postHTTPData(urls[1], urls[2]);
 			}
 		}

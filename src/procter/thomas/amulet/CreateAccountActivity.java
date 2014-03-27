@@ -2,8 +2,12 @@ package procter.thomas.amulet;
 
 import java.util.concurrent.ExecutionException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,30 +47,11 @@ public class CreateAccountActivity extends Activity implements OnRetrieveHttpDat
 		
 		
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
-		retrieveData.execute("http://08309.net.dcs.hull.ac.uk/api/admin/register?" +
+		retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/register?" +
 				"firstname=" + firstname +
 				"&Surname=" + surname +
 				"&username=" + username +
 				"&password=" + password);
-
-		String httpData = "";
-		
-			try {
-				httpData = retrieveData.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		//int openBracePos = httpData.indexOf('{');
-		//httpData = httpData.substring(openBracePos+2, httpData.length()-2);
-		Log.i("tag", httpData);
-		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(this, httpData, duration);
-		toast.show();
 		}
 		else{
 			String text = "Error: Passwords do not match";
@@ -76,9 +61,49 @@ public class CreateAccountActivity extends Activity implements OnRetrieveHttpDat
 		}
 	}
 
+	private void processObject(JSONObject result){
+		try {
+			if(result.has("Result")){
+			
+				Intent intent = new Intent(this, MenuActivity.class);
+				startActivity(intent);
+			
+				String text = "Account Successfuly Created";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+				Log.i("json", result.getString("Result"));
+			}
+			else if (result.has("Error")){
+				String text = result.getString("Error");
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+			}
+			else{
+				String text = "Unknown Error";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void onTaskCompleted(String httpData) {
-		// TODO Auto-generated method stub
+
+		try {
+			Log.i("ontaskcompleted", httpData);
+			JSONObject result = new JSONObject(httpData);
+			processObject(result);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

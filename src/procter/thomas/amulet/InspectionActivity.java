@@ -115,31 +115,35 @@ public class InspectionActivity extends Activity{
 		portraitLoad();
 		bottleLoad();
 		
-		
-		final long startTime = System.currentTimeMillis();
-		boolean exit = false;
-		
-		
-		
-	    
-		
-		
-		
 	}
 	
 	public void bottleLoad(){
 		allowClick = false;
 		handler.postDelayed(bottleLoadRunnable, 2000);
 		
-		
-		
-		
 	}
 	
-	public void bottleButton0(View view){
+	public void bottleButton(View view){
 		if(allowClick ==true)
 		{
-			if(blueBottlePos == 0){
+			int buttonPos = -1;
+			if(view.getId() == R.id.btnBottleInspectionPortrait0){
+				buttonPos = 0;
+			}
+			else if(view.getId() == R.id.btnBottleInspectionPortrait1){
+				buttonPos = 1;
+			}
+			else if(view.getId() == R.id.btnBottleInspectionPortrait2){
+				buttonPos = 2;
+			}
+			else if(view.getId() == R.id.btnBottleInspectionPortrait3){
+				buttonPos = 3;
+			}
+			else if(view.getId() == R.id.btnBottleInspectionPortrait4){
+				buttonPos = 4;
+			}
+			
+			if(blueBottlePos == buttonPos){
 				bottleLoad();
 			}
 			else{
@@ -147,50 +151,7 @@ public class InspectionActivity extends Activity{
 			}
 		}
 	}
-	public void bottleButton1(View view){
-		if(allowClick ==true)
-		{
-		if(blueBottlePos == 1){
-			bottleLoad();
-		}
-		else{
-			endClause();
-		}
-		}
-	}
-	public void bottleButton2(View view){
-		if(allowClick ==true)
-		{
-			if(blueBottlePos == 2){
-			bottleLoad();
-			}
-			else{
-				endClause();
-			}
-			}
-	}
-	public void bottleButton3(View view){
-		if(allowClick ==true)
-		{
-		if(blueBottlePos == 3){
-			bottleLoad();
-		}
-		else{
-			endClause();
-		}
-		}
-	}
-	public void bottleButton4(View view){
-		if(allowClick ==true)
-		{
-		if(blueBottlePos == 4 && allowClick == true){
-			bottleLoad();
-		}
-		else{
-			endClause();
-		}
-		}
-	}
+	
 	
 	private void endClause(){
 		setContentView(R.layout.activity_inspection_results);
@@ -208,8 +169,8 @@ public class InspectionActivity extends Activity{
 	
 	private JSONObject taskObject(String unitsConsumed){
 		JSONObject obj = new JSONObject();
-		String username = "jeff@alan.com";
-		String password = "no";
+		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "default");
 		JSONObject tasks = new JSONObject();
 		String taskType = "inspection";
 		Time time = new Time();
