@@ -1,7 +1,5 @@
 package procter.thomas.amulet;
 
-import java.util.concurrent.ExecutionException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +22,10 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		checkIfLoggedIn();
 	}
 
+	@Override
+	public void onBackPressed() {
+		
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -53,8 +55,8 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "Default");
 		if(!(username.equals("Default")))
 		{
-			SharedPreferencesWrapper.removeFromPrefs(this, "username");
-			SharedPreferencesWrapper.removeFromPrefs(this, "password");
+			Log.i(username, password);
+			removeFromPrefs();
 			Login(username, password);
 		}
 	}
@@ -94,12 +96,14 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(this, text, duration);
 				toast.show();
+				removeFromPrefs();
 			}
 			else{
 				String text = "Unknown Error";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(this, text, duration);
 				toast.show();
+				removeFromPrefs();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -107,9 +111,12 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		}
 	}
 	
+	private void removeFromPrefs(){
+		SharedPreferencesWrapper.removeFromPrefs(this, "username");
+		SharedPreferencesWrapper.removeFromPrefs(this, "password");
+	}
 	@Override
 	public void onTaskCompleted(String httpData) {
-
 		try {
 			Log.i("ontaskcompleted", httpData);
 			JSONObject result = new JSONObject(httpData);

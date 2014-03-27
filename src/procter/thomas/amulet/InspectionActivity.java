@@ -51,23 +51,7 @@ public class InspectionActivity extends Activity{
 		      /* and here comes the "trick" */
 		      allowClick = true;
 		      
-		    	  if(gameSpeedPos  < gameSpeed.length - 1)
-		    	  {
-		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
-			    	  {
-		    			  gameSpeedPos++;
 		    	  
-		    			  
-			    	  }
-		    		  lastGameSpeed = gameSpeed[gameSpeedPos];
-		    	  }
-		    	  else{
-		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
-			    	  {
-		    			  Log.i("end clause", "end");
-		    			  endClause();
-			    	  }
-		    	  }
 		      
 		      Log.i("gamespeedpos: ", gameSpeedPos +"");
 		      Log.i("gamespeed: ", gameSpeed[gameSpeedPos]+"");
@@ -126,6 +110,7 @@ public class InspectionActivity extends Activity{
 	public void bottleButton(View view){
 		if(allowClick ==true)
 		{
+			
 			int buttonPos = -1;
 			if(view.getId() == R.id.btnBottleInspectionPortrait0){
 				buttonPos = 0;
@@ -144,6 +129,24 @@ public class InspectionActivity extends Activity{
 			}
 			
 			if(blueBottlePos == buttonPos){
+				if(gameSpeedPos  < gameSpeed.length - 1)
+		    	  {
+		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
+			    	  {
+		    			  gameSpeedPos++;
+		    	  
+		    			  
+			    	  }
+		    		  lastGameSpeed = gameSpeed[gameSpeedPos];
+		    	  }
+		    	  else{
+		    		  if(lastGameSpeed == gameSpeed[gameSpeedPos])
+			    	  {
+		    			  Log.i("end clause", "end");
+		    			  endClause();
+			    	  }
+		    	  }
+				
 				bottleLoad();
 			}
 			else{

@@ -10,35 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtConfirmPassword"
         android:layout_centerHorizontal="true"
-        android:text="Confirm"
         android:background="@null"
         android:onClick="registerUserButton"
-        android:textColor="@android:color/white"  />
-
-    <EditText
-        android:id="@+id/txtFirstname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtPassword"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="Firstname"
-        android:textColor="@android:color/white"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txtSurname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtFirstname"
-        android:layout_below="@+id/txtFirstname"
-        android:ems="10"
-        android:hint="Surname"
-        android:textColor="@android:color/white"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
+        android:text="Confirm"
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/txtEmail"
@@ -48,8 +23,8 @@
         android:layout_below="@+id/txtSurname"
         android:ems="10"
         android:hint="Email Address"
-        android:textColor="@android:color/white"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/txtPassword"
@@ -59,8 +34,8 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Password"
-        android:textColor="@android:color/white"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/txtConfirmPassword"
@@ -70,7 +45,37 @@
         android:layout_below="@+id/txtPassword"
         android:ems="10"
         android:hint="Confirm Password"
-        android:textColor="@android:color/white"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/title_image" />
+
+    <EditText
+        android:id="@+id/txtFirstname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtPassword"
+        android:layout_below="@+id/imageView1"
+        android:ems="10"
+        android:hint="Firstname"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/txtSurname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtPassword"
+        android:layout_below="@+id/txtFirstname"
+        android:ems="10"
+        android:hint="Surname"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

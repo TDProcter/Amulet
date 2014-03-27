@@ -33,4 +33,12 @@
         android:onClick="inspectionButton"
         android:src="@drawable/inspection" />
 
+    <ImageView
+        android:id="@+id/ImageView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/title_image" />
+
 </RelativeLayout>

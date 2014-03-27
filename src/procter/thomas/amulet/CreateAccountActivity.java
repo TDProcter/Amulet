@@ -65,7 +65,7 @@ public class CreateAccountActivity extends Activity implements OnRetrieveHttpDat
 		try {
 			if(result.has("Result")){
 			
-				Intent intent = new Intent(this, MenuActivity.class);
+				Intent intent = new Intent(this, MainActivity.class);
 				startActivity(intent);
 			
 				String text = "Account Successfuly Created";
