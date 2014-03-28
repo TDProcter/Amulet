@@ -31,14 +31,12 @@ public final class R {
         public static final int pilot_test=0x7f020007;
         public static final int sequence=0x7f020008;
         public static final int sky=0x7f020009;
-        public static final int sky_blue_backround=0x7f02000a;
-        public static final int solid_wall=0x7f02000b;
-        public static final int title_image=0x7f02000c;
-        public static final int wall=0x7f02000d;
+        public static final int solid_wall=0x7f02000a;
+        public static final int title_image=0x7f02000b;
+        public static final int wall=0x7f02000c;
     }
     public static final class id {
-        public static final int ImageView01=0x7f080019;
-        public static final int action_settings=0x7f08001b;
+        public static final int action_settings=0x7f08001e;
         public static final int btnBottleInspectionPortrait0=0x7f08000f;
         public static final int btnBottleInspectionPortrait1=0x7f08000d;
         public static final int btnBottleInspectionPortrait2=0x7f08000c;
@@ -46,14 +44,18 @@ public final class R {
         public static final int btnBottleInspectionPortrait4=0x7f08000e;
         public static final int btnConfirm=0x7f080000;
         public static final int btnCreateAccount=0x7f080016;
+        public static final int btnInspectionMenu=0x7f080019;
         public static final int btnInspectionPost=0x7f080011;
         public static final int btnLogin=0x7f080015;
-        public static final int button1=0x7f08001a;
-        public static final int imageButton1=0x7f080018;
-        public static final int imageButton2=0x7f080017;
-        public static final int imageView1=0x7f080005;
+        public static final int btnPilotMenu=0x7f080018;
+        public static final int btnSequence=0x7f08001a;
+        public static final int button1=0x7f08001d;
+        public static final int gridview=0x7f08001c;
+        public static final int imageView1=0x7f080017;
         public static final int imgSkyInspectionPortrait=0x7f080007;
         public static final int imgSolidWallInspectionPortrait=0x7f080009;
+        public static final int imgTitleCreateAccount=0x7f080005;
+        public static final int imgTitleMenu=0x7f08001b;
         public static final int imgWallInspectionPortrait=0x7f080008;
         public static final int txtConfirmPassword=0x7f080001;
         public static final int txtEmail=0x7f080002;
@@ -72,7 +74,9 @@ public final class R {
         public static final int activity_inspection_results=0x7f030002;
         public static final int activity_main=0x7f030003;
         public static final int activity_menu=0x7f030004;
-        public static final int placeholder=0x7f030005;
+        public static final int activity_sequence=0x7f030005;
+        public static final int placeholder=0x7f030006;
+        public static final int sequence_text_view=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f070000;

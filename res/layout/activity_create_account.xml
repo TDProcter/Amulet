@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sky_blue_backround" >
+    android:background="#2BDFFF" >
 
     <Button
         android:id="@+id/btnConfirm"
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtConfirmPassword"
         android:layout_centerHorizontal="true"
-        android:background="@null"
+        style="?android:attr/borderlessButtonStyle"
         android:onClick="registerUserButton"
         android:text="Confirm"
         android:textColor="@android:color/white" />
@@ -49,7 +49,7 @@
         android:textColor="@android:color/white" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imgTitleCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtPassword"
-        android:layout_below="@+id/imageView1"
+        android:layout_below="@+id/imgTitleCreateAccount"
         android:ems="10"
         android:hint="Firstname"
         android:inputType="textPersonName"

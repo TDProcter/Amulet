@@ -2,39 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sky_blue_backround" >
+    android:background="#2BDFFF" >
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnPilotMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageButton1"
+        android:layout_alignTop="@+id/btnInspectionMenu"
         android:layout_centerHorizontal="true"
-        android:background="@null"
+        style="?android:attr/borderlessButtonStyle"
         android:src="@drawable/pilot_test" />
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <ImageButton
+        android:id="@+id/btnSequence"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/imageButton2"
+        android:layout_alignTop="@+id/btnPilotMenu"
         android:layout_marginRight="15dp"
+        android:onClick="sequenceButton"
         android:src="@drawable/sequence" />
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/btnInspectionMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="13dp"
-        android:background="@null"
+        style="?android:attr/borderlessButtonStyle"
         android:onClick="inspectionButton"
         android:src="@drawable/inspection" />
 
     <ImageView
-        android:id="@+id/ImageView01"
+        android:id="@+id/imgTitleMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

@@ -33,6 +33,11 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	public void sequenceButton(View view){
+		Intent intent = new Intent(this, SequenceActivity.class);
+		startActivity(intent);
+	}
+	
 	private void logOutCheck(){
 		
 		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default Username");

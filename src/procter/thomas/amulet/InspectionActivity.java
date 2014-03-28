@@ -30,7 +30,7 @@ public class InspectionActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		
+		getActionBar().hide();
 		setContentView(R.layout.placeholder);
 		Random random = new Random();
 		blueBottlePos = random.nextInt(4);
