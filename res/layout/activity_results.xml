@@ -7,35 +7,30 @@
         android:id="@+id/txtInspectionScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="26dp"
-        android:layout_marginTop="17dp"
+        android:layout_centerHorizontal="true"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/btnInspectionPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnInspectionPost"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="22dp"
-        android:layout_toRightOf="@+id/txtInspectionScore"
-        android:onClick="postToServer"
-        android:text="Post to Server" />
 
     <EditText
         android:id="@+id/txtUnitsConsumed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtInspectionScore"
-        android:layout_below="@+id/btnInspectionPost"
-        android:layout_marginTop="18dp"
+        android:layout_below="@+id/txtInspectionScore"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="number" >
 
         <requestFocus />
     </EditText>
+
+    <Button
+        android:id="@+id/btnInspectionPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtUnitsConsumed"
+        android:layout_centerHorizontal="true"
+        android:onClick="menuButton"
+        android:text="Post to Server" />
 
 </RelativeLayout>

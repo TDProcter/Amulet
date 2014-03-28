@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
@@ -157,50 +158,14 @@ public class InspectionActivity extends Activity{
 	
 	
 	private void endClause(){
-		setContentView(R.layout.activity_inspection_results);
-		TextView textView = (TextView) findViewById(R.id.txtInspectionScore);
-		textView.setText("Score: " + gameSpeed[gameSpeedPos] + "ms");
+		//intent results
+		Intent intent = new Intent(this, ResultsActivity.class);
+		
+		intent.putExtra("score", gameSpeed[gameSpeedPos]);
+		intent.putExtra("task", "Inspection");
+		intent.putExtra("unit", "ms");
+		startActivity(intent);
 	}
 	
-	public void postToServer(View v){
-		TextView unitsTextView = (TextView) findViewById(R.id.txtUnitsConsumed);
-		String unitsConsumed = unitsTextView.getText().toString();
-		Log.i("units", unitsConsumed+"");
-		JSONObject HTTPString = taskObject(unitsConsumed);
-		Log.i("JSON", HTTPString.toString());
-	}
 	
-	private JSONObject taskObject(String unitsConsumed){
-		JSONObject obj = new JSONObject();
-		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "default");
-		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "default");
-		JSONObject tasks = new JSONObject();
-		String taskType = "inspection";
-		Time time = new Time();
-		time.setToNow();
-		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
-		
-		JSONArray taskArray = new JSONArray();
-		
-		Log.i("time: ", timeStamp);
-		String taskValue = gameSpeed[gameSpeedPos] + "";
-		
-		try {
-			tasks.put("tasktype",  taskType);
-			tasks.put("timestamp",  timeStamp);
-			tasks.put("taskvalue",  taskValue);
-			tasks.put("unitsconsumed",  unitsConsumed);
-			
-			taskArray.put(tasks);
-			obj.put("username", username);
-			obj.put("password", password);
-			obj.put("tasks", taskArray);
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return obj;
-	}
 }
