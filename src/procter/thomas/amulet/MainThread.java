@@ -38,6 +38,7 @@ class MainThread extends Thread {
 						Thread.sleep(20);
 					}
 					else if(gamePanel != null){
+						gamePanel.onUpdate(canvas);
 						gamePanel.onDraw(canvas);
 					}
 				}

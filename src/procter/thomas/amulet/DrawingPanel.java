@@ -3,6 +3,7 @@ package procter.thomas.amulet;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -11,7 +12,9 @@ import android.view.SurfaceView;
 public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 
 	private MainThread thread;
-	
+	private PilotShape pilotPlayer;
+	private PilotShape[] badGuys;
+	boolean touchedSquare = false;
 	public DrawingPanel(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
@@ -22,6 +25,9 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
+		Paint playerColour = new Paint();
+		playerColour.setColor(0xffff0000);
+		pilotPlayer = new PilotShape((this.getWidth()/2), (this.getHeight()/2), 200, playerColour, null);
 	}
 
 	@Override
@@ -50,19 +56,35 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			if (event.getY() > getHeight() - 50) {
-				thread.setRunning(false);
-				((Activity)getContext()).finish();
-			} else {
-				Log.d("TAG", "Coords: x=" + event.getX() + ",y=" + event.getY());
+			
+			if(pilotPlayer.getRect().contains((int)event.getX(), (int)event.getY())){
+				touchedSquare = true;
+			}
+			
+		}
+		else if(event.getAction() == MotionEvent.ACTION_UP){
+			touchedSquare = false;
+		}
+		else if(event.getAction() == MotionEvent.ACTION_MOVE)
+		{
+			if(touchedSquare){
+				pilotPlayer.setPosition((int)event.getX(), (int)event.getY());
 			}
 		}
-		return super.onTouchEvent(event);
+		return true;
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.drawRGB(43, 223, 255);
+		canvas.drawRect(pilotPlayer.getRect(), pilotPlayer.colour);
+		
+	}
+	
+	public void onUpdate(Canvas canvas){
+		
 	}
 
 }

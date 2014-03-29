@@ -87,7 +87,12 @@ public class CreateAccountActivity extends Activity implements OnRetrieveHttpDat
 				toast.show();
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			
+			String text = "JSON Error";
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(this, text, duration);
+			toast.show();
+			
 			e.printStackTrace();
 		}
 	}
