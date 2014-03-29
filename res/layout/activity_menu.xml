@@ -11,6 +11,7 @@
         android:layout_alignTop="@+id/btnInspectionMenu"
         android:layout_centerHorizontal="true"
         style="?android:attr/borderlessButtonStyle"
+        android:onClick="pilotButton"
         android:src="@drawable/pilot_test" />
 
     <ImageButton

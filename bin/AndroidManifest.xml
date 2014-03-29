@@ -34,16 +34,23 @@
         </activity>
         <activity
             android:name="procter.thomas.amulet.InspectionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
             
         </activity>
         <activity
             android:name="procter.thomas.amulet.SequenceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
             
         </activity>
         <activity
             android:name="procter.thomas.amulet.ResultsActivity"
+            android:label="@string/app_name" >
+            
+        </activity>
+        <activity
+            android:name="procter.thomas.amulet.PilotActivity"
             android:label="@string/app_name" >
             
         </activity>

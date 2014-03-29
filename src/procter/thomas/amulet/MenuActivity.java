@@ -33,6 +33,12 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	public void pilotButton(View view){
+		
+		Intent intent = new Intent(this, PilotActivity.class);
+		startActivity(intent);
+	}
+	
 	public void sequenceButton(View view){
 		Intent intent = new Intent(this, SequenceActivity.class);
 		startActivity(intent);
