@@ -14,6 +14,7 @@ public class PilotActivity extends Activity{
         super.onCreate(savedInstanceState);
         
         // set our MainGamePanel as the View
+        
         setContentView(new DrawingPanel(this));
         Log.d("TAG", "View added");
     }

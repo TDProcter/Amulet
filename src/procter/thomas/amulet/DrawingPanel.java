@@ -1,9 +1,14 @@
 package procter.thomas.amulet;
 
-import android.app.Activity;
+import java.util.Random;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -11,10 +16,14 @@ import android.view.SurfaceView;
 
 public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 
+	
 	private MainThread thread;
 	private PilotShape pilotPlayer;
 	private PilotShape[] badGuys;
-	boolean touchedSquare = false;
+	private final int noOfBadGuys = 4;
+	private boolean touchedSquare = false;
+	private Time startTime, endTime;
+	
 	public DrawingPanel(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
@@ -27,7 +36,25 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 		setFocusable(true);
 		Paint playerColour = new Paint();
 		playerColour.setColor(0xffff0000);
-		pilotPlayer = new PilotShape((this.getWidth()/2), (this.getHeight()/2), 200, playerColour, null);
+		pilotPlayer = new PilotShape((this.getWidth()/2), (this.getHeight()/2), 200, 200, playerColour, null);
+		badGuys = new PilotShape[noOfBadGuys];
+		Paint enemyColour = new Paint();
+		enemyColour.setColor(0xffffff00);
+		for(int i = 0; i < badGuys.length; i++){
+			int dirX;
+			int dirY;
+			do{
+			Random random = new Random();
+			dirX = (random.nextInt(2)-1);
+			dirY = (random.nextInt(2)-1);
+			}while(dirX == 0 && dirY == 0);
+			badGuys[i] = new PilotShape((i+1)*200, (i+1)*200, 200, 300, enemyColour, new Point(dirX, dirY));
+			
+			
+		}
+		startTime = new Time();
+		endTime = new Time();
+		startTime.setToNow();
 	}
 
 	@Override
@@ -79,12 +106,45 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvas.drawRGB(43, 223, 255);
+		
+		for(int i = 0; i < badGuys.length; i++){
+			canvas.drawRect(badGuys[i].getRect(), badGuys[i].colour);
+		}
 		canvas.drawRect(pilotPlayer.getRect(), pilotPlayer.colour);
 		
 	}
 	
 	public void onUpdate(Canvas canvas){
-		
+		for(int i = 0; i < badGuys.length; i++){
+			Point dir = badGuys[i].getDirection();
+			badGuys[i].setPosition(badGuys[i].centre.x + dir.x, badGuys[i].centre.y + dir.y);
+			
+			if(badGuys[i].getRect().left < 0 || badGuys[i].getRect().right > canvas.getWidth()){
+				badGuys[i].setDirection(new Point(-dir.x, dir.y));
+			}
+			if(badGuys[i].getRect().top < 0 || badGuys[i].getRect().bottom > canvas.getHeight()){
+				badGuys[i].setDirection(new Point(dir.x, -dir.y));
+			}
+			Rect goodGuyRect = pilotPlayer.getRect();
+			Rect badGuyRect = badGuys[i].getRect();
+			if(Rect.intersects(goodGuyRect, badGuyRect)){
+				pilotPlayer.colour.setColor(0xffffffff);
+				finish();
+			}
+		}
 	}
+	
+	private void finish(){
+		
+		endTime.setToNow();
+		int newTime = (int)(endTime.toMillis(false) - startTime.toMillis(false))/1000;
+		Log.i("Time", String.valueOf(newTime));
+		Intent intent = new Intent(super.getContext(), ResultsActivity.class);
+		intent.putExtra("score", newTime);
+		intent.putExtra("task", "Pilot");
+		intent.putExtra("unit", "s");
+		super.getContext().startActivity(intent);
+	}
+	
 
 }

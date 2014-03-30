@@ -14,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnRetrieveHttpData{
-
+	
+	private boolean debugMode = true;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,7 +26,9 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 
 	@Override
 	public void onBackPressed() {
-		
+		if(debugMode){
+			startMenu();//testing only
+		}
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,8 +86,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 		try {
 			if(result.has("FullName")){
 			
-				Intent intent = new Intent(this, MenuActivity.class);////test only
-				startActivity(intent);
+				startMenu();
 			
 				String text = "Login Succesful";
 				int duration = Toast.LENGTH_SHORT;
@@ -109,6 +112,11 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void startMenu(){
+		Intent intent = new Intent(this, MenuActivity.class);////test only
+		startActivity(intent);
 	}
 	
 	private void removeFromPrefs(){

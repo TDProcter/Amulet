@@ -9,20 +9,30 @@ public class PilotShape {
 	Paint colour;
 	Rect position;
 	Point centre;
-	int size;
+	int width;
+	int height;
 	Point direction;
 
-	public PilotShape(int centreX, int centreY, int newSize, Paint paint, Point newDirection){
-		Rect tempRect = calculateRect(centreX, centreY, newSize);
+	public PilotShape(int centreX, int centreY, int newWidth, int newHeight, Paint paint, Point newDirection){
+		Rect tempRect = calculateRect(centreX, centreY, newWidth, newHeight);
 		this.position = new Rect(tempRect.left, tempRect.top, tempRect.right, tempRect.bottom);
 		this.colour = paint;
 		this.centre = new Point(centreX, centreY);
-		this.size= newSize;
+		this.width= newWidth;
+		this.height = newHeight;
 		this.direction = newDirection;
 	}
 	
+	public void setDirection(Point newDir){
+		this.direction = newDir;
+	}
+	
+	public Point getDirection(){
+		return this.direction;
+	}
+	
 	public void setPosition(int centreX, int centreY){
-		Rect newPos = calculateRect(centreX, centreY, this.size);
+		Rect newPos = calculateRect(centreX, centreY, this.width, this.height);
 		this.position.left =newPos.left;
 		this.position.top = newPos.top;
 		this.position.right = newPos.right;
@@ -32,10 +42,11 @@ public class PilotShape {
 	
 	
 	
-	private Rect calculateRect(int centreX, int centreY, int size){
+	private Rect calculateRect(int centreX, int centreY, int newWidth, int newHeight){
 		
-		int halfSize = size/2;
-		Rect returnRect = new Rect((centreX - halfSize), (centreY - halfSize), (centreX + halfSize), (centreY + halfSize));
+		int halfWidth = newWidth/2;
+		int halfHeight = newHeight/2;
+		Rect returnRect = new Rect((centreX - halfWidth), (centreY - halfHeight), (centreX + halfWidth), (centreY + halfHeight));
 		
 		return returnRect;
 	}

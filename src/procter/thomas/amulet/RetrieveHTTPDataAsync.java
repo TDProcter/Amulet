@@ -34,6 +34,7 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 			HttpResponse response = client.execute(httpGet);
 		    StatusLine statusLine = response.getStatusLine();
 		    int statusCode = statusLine.getStatusCode();
+		    Log.i("statusCode", statusCode +"");
 		    if (statusCode == 200) {
 		    	HttpEntity entity = response.getEntity();
 		       	InputStream content = entity.getContent();
