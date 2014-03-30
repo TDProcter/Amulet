@@ -44,4 +44,13 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/title_image" />
 
+    <Button
+        android:id="@+id/btnDrinkDiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPilotMenu"
+        android:layout_centerHorizontal="true"
+        android:onClick="drinkDiaryButton"
+        android:text="Diary" />
+
 </RelativeLayout>

@@ -44,6 +44,11 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	public void drinkDiaryButton(View view){
+		Intent intent = new Intent(this, DrinkDiaryActivity.class);
+		startActivity(intent);
+	}
+	
 	private void logOutCheck(){
 		
 		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default Username");

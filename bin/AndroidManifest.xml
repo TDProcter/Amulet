@@ -54,6 +54,11 @@
             android:label="@string/app_name" >
             
         </activity>
+        <activity
+            android:name="procter.thomas.amulet.DrinkDiaryActivity"
+            android:label="@string/app_name" >
+            
+        </activity>
     </application>
 
 </manifest>

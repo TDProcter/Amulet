@@ -20,7 +20,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 	private MainThread thread;
 	private PilotShape pilotPlayer;
 	private PilotShape[] badGuys;
-	private final int noOfBadGuys = 4;
+	private final int noOfBadGuys = 40;
 	private boolean touchedSquare = false;
 	private Time startTime, endTime;
 	
@@ -35,7 +35,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
 		Paint playerColour = new Paint();
-		playerColour.setColor(0xffff0000);
+		playerColour.setColor(0xffffffff);
 		pilotPlayer = new PilotShape((this.getWidth()/2), (this.getHeight()/2), 200, 200, playerColour, null);
 		badGuys = new PilotShape[noOfBadGuys];
 		Paint enemyColour = new Paint();
@@ -46,9 +46,10 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 			do{
 			Random random = new Random();
 			dirX = (random.nextInt(2)-1);
+			random = new Random();
 			dirY = (random.nextInt(2)-1);
 			}while(dirX == 0 && dirY == 0);
-			badGuys[i] = new PilotShape((i+1)*200, (i+1)*200, 200, 300, enemyColour, new Point(dirX, dirY));
+			badGuys[i] = new PilotShape((i+2)*100, (i+2)*100, 20, 30, enemyColour, new Point(dirX, dirY));
 			
 			
 		}
@@ -128,7 +129,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 			Rect goodGuyRect = pilotPlayer.getRect();
 			Rect badGuyRect = badGuys[i].getRect();
 			if(Rect.intersects(goodGuyRect, badGuyRect)){
-				pilotPlayer.colour.setColor(0xffffffff);
+				pilotPlayer.colour.setColor(0xffff0000);
 				finish();
 			}
 		}
