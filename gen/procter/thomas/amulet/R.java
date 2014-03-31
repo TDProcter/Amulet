@@ -37,9 +37,8 @@ public final class R {
         public static final int wall=0x7f02000d;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f080022;
         public static final int RelativeLayout1=0x7f080007;
-        public static final int action_settings=0x7f080027;
+        public static final int action_settings=0x7f080025;
         public static final int btnAddDrink=0x7f080009;
         public static final int btnBottleInspectionPortrait0=0x7f080013;
         public static final int btnBottleInspectionPortrait1=0x7f080011;
@@ -48,14 +47,13 @@ public final class R {
         public static final int btnBottleInspectionPortrait4=0x7f080012;
         public static final int btnConfirm=0x7f080000;
         public static final int btnCreateAccount=0x7f080017;
-        public static final int btnDialogAddDrink=0x7f080025;
         public static final int btnDrinkDiary=0x7f08001c;
         public static final int btnInspectionMenu=0x7f080019;
         public static final int btnInspectionPost=0x7f08001f;
         public static final int btnLogin=0x7f080016;
         public static final int btnPilotMenu=0x7f080018;
         public static final int btnSequence=0x7f08001a;
-        public static final int button1=0x7f080026;
+        public static final int button1=0x7f080024;
         public static final int gridview=0x7f080020;
         public static final int imageView1=0x7f080008;
         public static final int imgSkyInspectionPortrait=0x7f08000b;
@@ -64,10 +62,10 @@ public final class R {
         public static final int imgTitleMenu=0x7f08001b;
         public static final int imgWallInspectionPortrait=0x7f08000c;
         public static final int lstAddedDrinks=0x7f08000a;
-        public static final int spnDrinks=0x7f080023;
+        public static final int spnDrinks=0x7f080022;
         public static final int text1=0x7f080021;
         public static final int txtConfirmPassword=0x7f080001;
-        public static final int txtDialogUnits=0x7f080024;
+        public static final int txtDialogUnits=0x7f080023;
         public static final int txtEmail=0x7f080002;
         public static final int txtFirstname=0x7f080006;
         public static final int txtInspectionScore=0x7f08001d;

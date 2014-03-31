@@ -19,11 +19,15 @@ import android.widget.TextView;
 public class DrinkDiaryActivity extends Activity{
 
 	ArrayList<String> addedDrinks;
+	ArrayList<String> existingDrinks;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drink_diary);
 		addedDrinks = new ArrayList<String>();
+		existingDrinks = new ArrayList<String>();
+		existingDrinks.add("Stella");
+		existingDrinks.add("Guiness");
 		setupList();
 	}
 	
@@ -46,7 +50,7 @@ public class DrinkDiaryActivity extends Activity{
 				     int position, long id) {
 				   
 					   
-					   confirmation2(position);
+					   confirmation(position);
 					   
 				   }
 				  });
@@ -76,42 +80,57 @@ public class DrinkDiaryActivity extends Activity{
 		
 	}
 	
-private void confirmation2(final int rowId){
+private void addDrink(){
 		
+	String[] drinks = new String[existingDrinks.size()];
+	existingDrinks.toArray(drinks);
+	
 	 LayoutInflater li = LayoutInflater.from(this);
 
      View promptsView = li.inflate(R.layout.dialog_unit_calculator, null);
 
-     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-     alertDialogBuilder.setView(promptsView);
+     builder.setView(promptsView);
 
      // set dialog message
 
-     alertDialogBuilder.setTitle("My Dialog..");
-     alertDialogBuilder.setIcon(R.drawable.ic_launcher);
+     builder.setTitle("Add a Drink");
+     builder.setIcon(R.drawable.ic_launcher);
      // create alert dialog
-     final AlertDialog alertDialog = alertDialogBuilder.create();
-
+     
      final Spinner mSpinner= (Spinner) promptsView
              .findViewById(R.id.spnDrinks);
      final TextView mTextView = (TextView) promptsView
     		 .findViewById(R.id.txtDialogUnits);
-     final Button mButton = (Button) promptsView
-             .findViewById(R.id.btnDialogAddDrink);
+     
+     mSpinner.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, drinks));
+     
+     builder.setPositiveButton("Add Drink", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // continue with delete
+	        	addedDrinks.add(mSpinner.getSelectedItem().toString());
+	        	setupList();
+	        }
+	     });
+	    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     });
+	    
 
      // reference UI elements from my_dialog_layout in similar fashion
 
-     mSpinner.setOnItemSelectedListener(new OnSpinnerItemSelected());
-
      // show it
-     alertDialog.show();
-     alertDialog.setCanceledOnTouchOutside(false);
+     builder.show();
+     
 		
 	}
 	
 	public void addButton(View view){
-		addedDrinks.add("test " + addedDrinks.size());
+		addDrink();
 		setupList();
 	}
 }
