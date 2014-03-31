@@ -1,5 +1,6 @@
 package procter.thomas.amulet;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import android.content.Context;
@@ -20,7 +21,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 	private MainThread thread;
 	private PilotShape pilotPlayer;
 	private PilotShape[] badGuys;
-	private final int noOfBadGuys = 40;
+	private final int noOfBadGuys = 8;
 	private boolean touchedSquare = false;
 	private Time startTime, endTime;
 	
@@ -44,11 +45,11 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 			int dirX;
 			int dirY;
 			do{
-			Random random = new Random();
-			dirX = (random.nextInt(2)-1);
-			random = new Random();
-			dirY = (random.nextInt(2)-1);
+			SecureRandom random = new SecureRandom();
+			dirX = (random.nextInt(3)-1);
+			dirY = (random.nextInt(3)-1);
 			}while(dirX == 0 && dirY == 0);
+			Log.i("dir", dirX + ",  " + dirY);
 			badGuys[i] = new PilotShape((i+2)*100, (i+2)*100, 20, 30, enemyColour, new Point(dirX, dirY));
 			
 			

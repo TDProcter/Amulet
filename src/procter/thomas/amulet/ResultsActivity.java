@@ -37,7 +37,11 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	
 	@Override
 	public void onBackPressed() {
-		postToServer();
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(this, "Result Not Saved!", duration);
+		toast.show();
+		Intent intent = new Intent(this, MenuActivity.class);
+		startActivity(intent);
 	}
 	
 	public void menuButton(View v){
@@ -51,7 +55,6 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 		Log.i("units", unitsConsumed+"");
 		JSONObject obj = taskObject(unitsConsumed);
 		String HTTPString = obj.toString();
-		Log.i("JSON", HTTPString.toString());
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
 		Intent intent = new Intent(this, MenuActivity.class);
@@ -94,10 +97,7 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 
 	@Override
 	public void onTaskCompleted(String httpData) {
-
-		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(this, httpData, duration);
-		toast.show();
+		
 		
 	}
 	

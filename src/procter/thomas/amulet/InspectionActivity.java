@@ -34,7 +34,6 @@ public class InspectionActivity extends Activity{
 		getActionBar().hide();
 		setContentView(R.layout.placeholder);
 		Random random = new Random();
-		blueBottlePos = random.nextInt(4);
 		gameSpeedPos = 0;
 		
 		

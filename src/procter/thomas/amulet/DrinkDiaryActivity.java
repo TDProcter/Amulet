@@ -105,7 +105,7 @@ private void addDrink(){
     		 .findViewById(R.id.txtDialogUnits);
      
      mSpinner.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, drinks));
+				android.R.layout.simple_spinner_dropdown_item, drinks));
      
      builder.setPositiveButton("Add Drink", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
