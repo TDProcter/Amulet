@@ -14,24 +14,36 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/diary_image" />
 
-    <ImageButton
-        android:id="@+id/btnAddDrink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:onClick="addButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:src="@android:drawable/ic_input_add" />
-
     <ListView
         android:id="@+id/lstAddedDrinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnAddDrink"
         android:layout_centerHorizontal="true"
-        android:textColor="#FFFFFF" >
+         >
 
     </ListView>
+
+    <Button
+        android:id="@+id/btnAddDrink"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:onClick="addButton"
+        android:text="Add Item"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnSubmitDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lstAddedDrinks"
+        android:layout_alignRight="@+id/imageView1"
+        style="?android:attr/borderlessButtonStyle"
+        android:onClick="submitButton"
+        android:text="Submit" 
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
