@@ -36,7 +36,8 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f080007;
-        public static final int action_settings=0x7f080026;
+        public static final int action_account_management=0x7f080027;
+        public static final int action_logout=0x7f080026;
         public static final int btnAddDrink=0x7f08000a;
         public static final int btnBottleInspectionPortrait0=0x7f080014;
         public static final int btnBottleInspectionPortrait1=0x7f080012;
@@ -92,9 +93,9 @@ public final class R {
         public static final int main=0x7f070000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
+        public static final int action_account_management=0x7f050001;
+        public static final int action_logout=0x7f050002;
         public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
     }
     public static final class style {
         /** 

@@ -158,8 +158,24 @@ private void addDrink(){
 		String HTTPString = obj.toString();
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/drink", HTTPString);
-		
+		saveToFile(obj, "posted");
 	}
+	
+	private void saveToFile(JSONObject obj, String posted){
+		InternalSave internalSave = new InternalSave();
+		JSONObject currentObj = internalSave.readDrinkDiary(this);
+		try {
+			currentObj.putOpt(posted, obj);
+			Log.i("tags", currentObj.toString());
+			internalSave.saveDrinkDiary(this, currentObj);
+			Log.i("tags", currentObj.toString());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	private JSONObject entryObject(){
 		JSONObject obj = new JSONObject();

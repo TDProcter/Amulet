@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class MenuActivity extends Activity {
@@ -25,6 +26,22 @@ public class MenuActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_logout:
+	        	logOutCheck();
+	            return true;
+	        case R.id.action_account_management:
+	        	//load account management
+	            return true;
+	        
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 	public void inspectionButton(View view){
