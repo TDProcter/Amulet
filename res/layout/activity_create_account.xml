@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtConfirmPassword"
         android:layout_centerHorizontal="true"
-        style="?android:attr/borderlessButtonStyle"
         android:onClick="registerUserButton"
         android:text="Confirm"
+        style="?android:attr/borderlessButtonStyle"
         android:textColor="@android:color/white" />
 
     <EditText

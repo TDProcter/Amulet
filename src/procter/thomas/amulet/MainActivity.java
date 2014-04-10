@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			if(result.has("FullName")){
 			
 				startMenu();
-			
+				SharedPreferencesWrapper.saveToPrefs(this, "fullName", result.getString("FullName"));
 				String text = "Login Succesful";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(this, text, duration);
@@ -122,6 +122,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 	private void removeFromPrefs(){
 		SharedPreferencesWrapper.removeFromPrefs(this, "username");
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
+		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
 	}
 	@Override
 	public void onTaskCompleted(String httpData) {

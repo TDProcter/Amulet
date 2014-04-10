@@ -36,7 +36,8 @@ public class MenuActivity extends Activity {
 	        	logOutCheck();
 	            return true;
 	        case R.id.action_account_management:
-	        	//load account management
+	        	Intent intent = new Intent(this, AccountManagementActivity.class);
+	        	startActivity(intent);
 	            return true;
 	        
 	        default:
@@ -93,6 +94,7 @@ public class MenuActivity extends Activity {
 	private void logOut(){
 		SharedPreferencesWrapper.removeFromPrefs(this, "username");
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
+		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
