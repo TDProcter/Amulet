@@ -48,18 +48,38 @@ public class MenuActivity extends Activity {
 	public void inspectionButton(View view){
 		
 		Intent intent = new Intent(this, InspectionActivity.class);
-		startActivity(intent);
+		if(SharedPreferencesWrapper.getFromPrefs(this, "InspectionBaseLine", "noBaseLine").equals("noBaseLine")){
+			calibrationConfirmation(intent);
+		}
+		else{
+			intent.putExtra("mode", "normal");
+			startActivity(intent);
+		}
 	}
 	
 	public void pilotButton(View view){
 		
 		Intent intent = new Intent(this, PilotActivity.class);
-		startActivity(intent);
+		if(SharedPreferencesWrapper.getFromPrefs(this, "PilotBaseLine", "noBaseLine").equals("noBaseLine")){
+			calibrationConfirmation(intent);
+		}
+		else{
+			intent.putExtra("mode", "normal");
+			startActivity(intent);
+		}
 	}
 	
 	public void sequenceButton(View view){
 		Intent intent = new Intent(this, SequenceActivity.class);
-		startActivity(intent);
+		if(SharedPreferencesWrapper.getFromPrefs(this, "SequenceBaseLine", "noBaseLine").equals("noBaseLine")){
+			calibrationConfirmation(intent);
+		}
+		else{
+			intent.putExtra("mode", "normal");
+			startActivity(intent);
+		}
+		
+		
 	}
 	
 	public void drinkDiaryButton(View view){
@@ -91,7 +111,41 @@ public class MenuActivity extends Activity {
 		
 	}
 	
+private void calibrationConfirmation(final Intent intent){
+		
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Sobriety is an issue!");
+	    builder.setMessage("You haven't yet calibrated this task!\n" +
+	    		"You must be sobre to calculate a baseline accurately.\n" +
+	    		"Are you sobre enough to continue?");
+	    builder.setPositiveButton("I haven't had a drink yet!", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	        	intent.putExtra("mode", "calibration");
+	        	startActivity(intent);
+	        }
+	     });
+	    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     });
+	    builder.setIcon(R.drawable.ic_launcher);
+	     builder.show();
+		
+		
+	}
+	
 	private void logOut(){
+		if(!(SharedPreferencesWrapper.getFromPrefs(this, "SequenceBaseLine", "noBaseLine").equals("noBaseLine"))){
+			SharedPreferencesWrapper.removeFromPrefs(this, "SequenceBaseLine");
+		}
+		if(!(SharedPreferencesWrapper.getFromPrefs(this, "PilotBaseLine", "noBaseLine").equals("noBaseLine"))){
+			SharedPreferencesWrapper.removeFromPrefs(this, "PilotBaseLine");
+		}
+		if(!(SharedPreferencesWrapper.getFromPrefs(this, "InspectionBaseLine", "noBaseLine").equals("noBaseLine"))){
+			SharedPreferencesWrapper.removeFromPrefs(this, "InspectionBaseLine");
+		}
 		SharedPreferencesWrapper.removeFromPrefs(this, "username");
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
 		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");

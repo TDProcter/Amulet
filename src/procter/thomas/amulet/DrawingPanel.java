@@ -2,8 +2,8 @@ package procter.thomas.amulet;
 
 import java.security.SecureRandom;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -168,11 +168,9 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 		stopOnTouch = true;
 		endTime.setToNow();
 		int newTime = (int)(endTime.toMillis(false) - startTime.toMillis(false))/1000;
-		Intent intent = new Intent(super.getContext(), ResultsActivity.class);
-		intent.putExtra("score", newTime);
-		intent.putExtra("task", "Pilot");
-		intent.putExtra("unit", "s");
-		super.getContext().startActivity(intent);
+		PilotActivity activity = (PilotActivity) super.getContext();//context;
+		activity.finish(newTime);
+		//
 	}
 	
 

@@ -159,7 +159,7 @@ public class InspectionActivity extends Activity{
 	private void endClause(){
 		//intent results
 		Intent intent = new Intent(this, ResultsActivity.class);
-		
+		intent.putExtra("mode",getIntent().getStringExtra("mode"));
 		intent.putExtra("score", gameSpeed[gameSpeedPos]);
 		intent.putExtra("task", "Inspection");
 		intent.putExtra("unit", "ms");

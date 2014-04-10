@@ -1,10 +1,9 @@
 package procter.thomas.amulet;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class PilotActivity extends Activity{
 	
@@ -29,5 +28,14 @@ public class PilotActivity extends Activity{
 	protected void onStop() {
 		Log.d("TAG", "Stopping...");
 		super.onStop();
+	}
+	
+	public void finish(int newTime){
+		Intent intent = new Intent(this, ResultsActivity.class);
+		intent.putExtra("mode",getIntent().getStringExtra("mode"));
+		intent.putExtra("score", newTime);
+		intent.putExtra("task", "Pilot");
+		intent.putExtra("unit", "s");
+		startActivity(intent);
 	}
 }

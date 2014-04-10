@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -76,14 +78,13 @@ public class SequenceActivity extends Activity{
 
 	private void endClause(int endTime){
 		//intent results
-		Intent intent = new Intent(this, ResultsActivity.class);
 		
+		Intent intent = new Intent(this, ResultsActivity.class);
+		intent.putExtra("mode",getIntent().getStringExtra("mode"));
 		intent.putExtra("score", endTime);
 		intent.putExtra("task", "Sequence");
 		intent.putExtra("unit", "s");
 		startActivity(intent);
 	}
-	
-	
 	
 }
