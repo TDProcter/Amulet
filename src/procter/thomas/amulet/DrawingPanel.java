@@ -24,8 +24,8 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 	private boolean touchedSquare = false;
 	private Time startTime, endTime;
 	private boolean setObjects = true;
-	private int badGuySize = 500;
-	private int playerSize = 200;
+	private int badGuySize = 500; //Perimeter divided by 2
+	private int playerSize = 200; //Perimeter divided by 2
 	private boolean stopOnTouch = false;
 	public DrawingPanel(Context context) {
 		super(context);
@@ -92,7 +92,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 				width = 50 * (random.nextInt(10) + 1);
 			} while (height+width != badGuySize);
 			Log.i("size", height + ",  " + width);
-			badGuys[i] = new PilotShape((badGuySize/2)+1, (badGuySize/2)+1, width, height,
+			badGuys[i] = new PilotShape((badGuySize)+1, (badGuySize)+1, width, height,
 					enemyColour, new Point(dirX*speed, dirY*speed));
 
 			this.setObjects = false;
