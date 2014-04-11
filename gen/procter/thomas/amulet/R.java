@@ -37,9 +37,9 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f080000;
-        public static final int RelativeLayoutResults=0x7f08002d;
-        public static final int action_account_management=0x7f080034;
-        public static final int action_logout=0x7f080033;
+        public static final int RelativeLayoutResults=0x7f08002e;
+        public static final int action_account_management=0x7f080035;
+        public static final int action_logout=0x7f080034;
         public static final int btnAddDrink=0x7f080013;
         public static final int btnBottleInspectionPortrait0=0x7f08001d;
         public static final int btnBottleInspectionPortrait1=0x7f08001b;
@@ -57,7 +57,7 @@ public final class R {
         public static final int btnResultsUnitCalc=0x7f08002a;
         public static final int btnSequence=0x7f080024;
         public static final int btnSubmitDrinks=0x7f080014;
-        public static final int button1=0x7f080032;
+        public static final int button1=0x7f080033;
         public static final int gridview=0x7f08002b;
         public static final int imageView1=0x7f080011;
         public static final int imgAccountManagement=0x7f080001;
@@ -66,16 +66,17 @@ public final class R {
         public static final int imgTitleCreateAccount=0x7f08000f;
         public static final int imgTitleMenu=0x7f080025;
         public static final int imgWallInspectionPortrait=0x7f080016;
-        public static final int lblCalcUnits=0x7f080031;
+        public static final int lblCalcUnits=0x7f080032;
         public static final int lblMngFullName=0x7f080003;
         public static final int lblMngFullNameView=0x7f080005;
         public static final int lblMngUserName=0x7f080002;
         public static final int lblMngUsernameView=0x7f080004;
         public static final int lstAddedDrinks=0x7f080012;
-        public static final int nbrCalcQuantity=0x7f080030;
-        public static final int spnCalcDrinks=0x7f08002e;
-        public static final int spnCalcSize=0x7f08002f;
-        public static final int text1=0x7f08002c;
+        public static final int lstTaskHistory=0x7f08002c;
+        public static final int nbrCalcQuantity=0x7f080031;
+        public static final int spnCalcDrinks=0x7f08002f;
+        public static final int spnCalcSize=0x7f080030;
+        public static final int text1=0x7f08002d;
         public static final int txtConfirmPassword=0x7f08000b;
         public static final int txtEmail=0x7f08000c;
         public static final int txtFirstname=0x7f080010;
@@ -100,10 +101,11 @@ public final class R {
         public static final int activity_menu=0x7f030006;
         public static final int activity_results=0x7f030007;
         public static final int activity_sequence=0x7f030008;
-        public static final int custom_list_view=0x7f030009;
-        public static final int dialog_unit_calculator=0x7f03000a;
-        public static final int placeholder=0x7f03000b;
-        public static final int sequence_text_view=0x7f03000c;
+        public static final int activity_view_task_history=0x7f030009;
+        public static final int custom_list_view=0x7f03000a;
+        public static final int dialog_unit_calculator=0x7f03000b;
+        public static final int placeholder=0x7f03000c;
+        public static final int sequence_text_view=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f070000;

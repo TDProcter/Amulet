@@ -3,19 +3,13 @@ package procter.thomas.amulet;
 
 import java.util.Random;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 public class InspectionActivity extends Activity{
 	
@@ -33,7 +27,6 @@ public class InspectionActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		getActionBar().hide();
 		setContentView(R.layout.placeholder);
-		Random random = new Random();
 		gameSpeedPos = 0;
 		
 		

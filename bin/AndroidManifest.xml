@@ -65,6 +65,17 @@
             android:label="@string/app_name" >
             
         </activity>
+        <activity
+            android:name="procter.thomas.amulet.ViewTaskHistoryActivity"
+            android:label="@string/app_name" >
+            
+        </activity>
+        
+        <provider
+            android:name="procter.thomas.amulet.AmuletContentProvider"
+            android:authorities="procter.thomas.amuletcontentprovider"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>

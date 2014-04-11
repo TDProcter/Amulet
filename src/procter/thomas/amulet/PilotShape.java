@@ -3,7 +3,6 @@ package procter.thomas.amulet;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class PilotShape {
 	Paint colour;

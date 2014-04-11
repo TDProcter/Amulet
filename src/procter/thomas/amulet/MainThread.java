@@ -2,7 +2,6 @@ package procter.thomas.amulet;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 class MainThread extends Thread {

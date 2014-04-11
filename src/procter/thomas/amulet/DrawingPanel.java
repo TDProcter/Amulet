@@ -2,7 +2,6 @@ package procter.thomas.amulet;
 
 import java.security.SecureRandom;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

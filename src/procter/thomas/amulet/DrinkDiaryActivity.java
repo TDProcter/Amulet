@@ -10,7 +10,6 @@ import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -20,8 +19,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class DrinkDiaryActivity extends Activity implements OnRetrieveHttpData{
 
@@ -35,8 +34,8 @@ public class DrinkDiaryActivity extends Activity implements OnRetrieveHttpData{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drink_diary);
 		addedDrinks = new ArrayList<String>();
-		existingDrinks = new ArrayList<String>();
 		addedQuantities = new ArrayList<String>();
+		existingDrinks = new ArrayList<String>();
 		existingDrinks.add("Stella");
 		existingDrinks.add("Guiness");
 		setupList();
@@ -114,18 +113,20 @@ private void addDrink(){
      // create alert dialog
      
      final Spinner mSpinner= (Spinner) promptsView
-             .findViewById(R.id.spnDrinks);
-     final TextView mTextView = (TextView) promptsView
-    		 .findViewById(R.id.txtDialogUnits);
+             .findViewById(R.id.spnCalcDrinks);
+     final NumberPicker nbrQuantity = (NumberPicker) promptsView
+             .findViewById(R.id.nbrCalcQuantity);
+     nbrQuantity.setMaxValue(100);
+     nbrQuantity.setMinValue(0);
      
      mSpinner.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, drinks));
      
      builder.setPositiveButton("Add Drink", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	            // continue with delete
+	            
 	        	addedDrinks.add(mSpinner.getSelectedItem().toString());
-	        	addedQuantities.add(mTextView.getText().toString());
+	        	//addedQuantities.add(mTextView.getText().toString());
 	        	setupList();
 	        }
 	     });
@@ -158,24 +159,8 @@ private void addDrink(){
 		String HTTPString = obj.toString();
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/drink", HTTPString);
-		saveToFile(obj, "posted");
+		
 	}
-	
-	private void saveToFile(JSONObject obj, String posted){
-		InternalSave internalSave = new InternalSave();
-		JSONObject currentObj = internalSave.readDrinkDiary(this);
-		try {
-			currentObj.putOpt(posted, obj);
-			Log.i("tags", currentObj.toString());
-			internalSave.saveDrinkDiary(this, currentObj);
-			Log.i("tags", currentObj.toString());
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	
 	private JSONObject entryObject(){
 		JSONObject obj = new JSONObject();

@@ -5,13 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +33,8 @@ public class SequenceActivity extends Activity{
 	
 	
 	
+	
+	
 	public void startButton(View view) {
 		setContentView(R.layout.activity_sequence);
 		startTime = new Time();
@@ -47,11 +45,13 @@ public class SequenceActivity extends Activity{
 		ArrayList<String> arrayList = new ArrayList<String>(
 				Arrays.asList(numbers));
 		Collections.shuffle(arrayList);
+		
 		adapter = new ArrayAdapter<String>(this, R.layout.sequence_text_view,
 				arrayList);
-
+		
 		gridview.setAdapter(adapter);
 
+		
 		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {

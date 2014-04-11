@@ -1,16 +1,17 @@
 package procter.thomas.amulet;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -64,8 +65,8 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	public void menuButton(View v){
 		TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
 		String unitsConsumed = unitsTextView.getText().toString();
-		int convertUnits = Integer.parseInt(unitsConsumed);
-		unitsConsumed = convertUnits+"";
+		double convertUnits = Double.parseDouble(unitsConsumed);
+		unitsConsumed = String.format(Locale.UK, "%.2f", convertUnits);
 		if(unitsConsumed.equals("0")){
 			calibrationConfirmation();
 		}
@@ -111,13 +112,14 @@ public void unitCalcButton(View view){
 		addDrink(0);
 	}
 	else{
-	addDrink(Integer.parseInt(txtUnits.getText().toString()));
+	addDrink(Double.parseDouble(txtUnits.getText().toString()));
+	
 	}
 }
 
 private void setupEditTextUnit(double units){
 	final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
-    txtUnits.setText(String.format("%.2f", units));
+    txtUnits.setText(String.format(Locale.UK, "%.2f", units));
 }
 
 private void setupDrinkList(){
@@ -199,10 +201,25 @@ private void addDrink(final double currentUnits){
 	private void postToServer(String unitsConsumed){
 		
 		Log.i("units", unitsConsumed+"");
-		JSONObject obj = taskObject(unitsConsumed);
+		ContentResolver cr = getContentResolver();
+		StorageMethods storageMethods = new StorageMethods();
+		
+		
+		Time time = new Time();
+		time.setToNow();
+		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
+		
+		StorageMethods.addNewTask(cr, task, timeStamp, score+"", unitsConsumed, false);
+		Cursor taskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
+		Log.i("count", taskCursor.getCount()+"");
+		
+		JSONObject obj = storageMethods.packTaskCursor(this, taskCursor);
+		Log.i("obj", obj.toString());
 		String HTTPString = obj.toString();
 		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
 		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
+		
+		taskCursor.close();
 		startMenu();
 	}
 	
@@ -211,39 +228,7 @@ private void addDrink(final double currentUnits){
 		startActivity(intent);
 	}
 	
-	private JSONObject taskObject(String unitsConsumed){
-		JSONObject obj = new JSONObject();
-		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "default");
-		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "default");
-		JSONObject tasks = new JSONObject();
-		
-		Time time = new Time();
-		time.setToNow();
-		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
-		
-		JSONArray taskArray = new JSONArray();
-		
-		Log.i("time: ", timeStamp);
-		String taskValue = score + "";
-		
-		try {
-			tasks.put("tasktype",  task);
-			tasks.put("timestamp",  timeStamp);
-			tasks.put("taskvalue",  taskValue);
-			tasks.put("unitsconsumed",  unitsConsumed);
-			
-			taskArray.put(tasks);
-			obj.put("username", username);
-			obj.put("password", password);
-			obj.put("tasks", taskArray);
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return obj;
-	}
+	
 
 	@Override
 	public void onTaskCompleted(String httpData) {
