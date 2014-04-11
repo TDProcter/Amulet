@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/txtInspectionScore"
+        android:id="@+id/txtResultsScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -13,10 +13,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/txtUnitsConsumed"
+        android:id="@+id/txtResultsUnitsConsumed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtInspectionScore"
+        android:layout_below="@+id/txtResultsScore"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="number" >
@@ -25,12 +25,21 @@
     </EditText>
 
     <Button
-        android:id="@+id/btnInspectionPost"
+        android:id="@+id/btnResultsPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtUnitsConsumed"
+        android:layout_below="@+id/txtResultsUnitsConsumed"
         android:layout_centerHorizontal="true"
         android:onClick="menuButton"
         android:text="Post to Server" />
+
+    <Button
+        android:id="@+id/btnResultsUnitCalc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="unitCalcButton"
+        android:layout_alignBottom="@+id/txtResultsUnitsConsumed"
+        android:layout_toRightOf="@+id/txtResultsUnitsConsumed"
+        android:text="Unit Calculator" />
 
 </RelativeLayout>

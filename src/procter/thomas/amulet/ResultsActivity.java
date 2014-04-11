@@ -1,5 +1,7 @@
 package procter.thomas.amulet;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +27,11 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 
 	int score;
 	String task;
+	ArrayList<String> genericSizes;
+	ArrayList<String> genericDrinks;
+	ArrayList<int[]> genericSizesMl;//the amount of liquid in mililetres
+	ArrayList<double[]> genericDrinksAbv;//The alcoholic volume of the drink (%)
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -35,10 +47,10 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 		}
 		else{
 			String scoreUnit = intent.getStringExtra("unit");
-			TextView textView = (TextView) findViewById(R.id.txtInspectionScore);
+			TextView textView = (TextView) findViewById(R.id.txtResultsScore);
 			textView.setText("Score: " + score + scoreUnit);
 		}
-	
+		setupDrinkList();
 	}
 	
 	@Override
@@ -50,7 +62,7 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	}
 	
 	public void menuButton(View v){
-		TextView unitsTextView = (TextView) findViewById(R.id.txtUnitsConsumed);
+		TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
 		String unitsConsumed = unitsTextView.getText().toString();
 		int convertUnits = Integer.parseInt(unitsConsumed);
 		unitsConsumed = convertUnits+"";
@@ -92,6 +104,96 @@ private void calibrationConfirmation(){
 	     builder.show();
 		
 		
+	}
+public void unitCalcButton(View view){
+	final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
+	if(txtUnits.getText().toString().equals("")){
+		addDrink(0);
+	}
+	else{
+	addDrink(Integer.parseInt(txtUnits.getText().toString()));
+	}
+}
+
+private void setupEditTextUnit(double units){
+	final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
+    txtUnits.setText(String.format("%.2f", units));
+}
+
+private void setupDrinkList(){
+	
+	genericDrinks = new ArrayList<String>();
+	genericDrinksAbv = new ArrayList<double[]>();
+	genericDrinks.add("Stella");
+	genericDrinksAbv.add(new double[] {5.2});
+	genericDrinks.add("Guiness");
+	genericDrinksAbv.add(new double[] {4.1});
+	
+	genericSizes = new ArrayList<String>();
+	genericSizesMl = new ArrayList<int[]>();
+	genericSizes.add("Pint");
+	genericSizesMl.add(new int[] {568});
+	genericSizes.add("Half Pint");
+	genericSizesMl.add(new int[] {284});
+}
+
+private void addDrink(final double currentUnits){
+	
+	String[] drinks = new String[genericDrinks.size()];
+	genericDrinks.toArray(drinks);
+	
+	String[] sizes = new String[genericSizes.size()];
+	genericSizes.toArray(sizes);
+	
+	 LayoutInflater li = LayoutInflater.from(this);
+
+     View promptsView = li.inflate(R.layout.dialog_unit_calculator, null);
+
+     AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+     builder.setView(promptsView);
+
+     // set dialog message
+
+     builder.setTitle("Add a Drink");
+     builder.setIcon(R.drawable.ic_launcher);
+     // create alert dialog
+     
+     final Spinner spnDrinks= (Spinner) promptsView
+             .findViewById(R.id.spnCalcDrinks);
+     final Spinner spnSizes= (Spinner) promptsView
+             .findViewById(R.id.spnCalcSize);
+     final NumberPicker nbrQuantity = (NumberPicker) promptsView
+             .findViewById(R.id.nbrCalcQuantity);
+     final TextView lblUnits = (TextView) promptsView
+    		 .findViewById(R.id.lblCalcUnits);
+     lblUnits.setText(String.format("%.2f", currentUnits));
+     nbrQuantity.setMaxValue(100);
+     nbrQuantity.setMinValue(1);
+     
+     
+     spnDrinks.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, drinks));
+     spnSizes.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, sizes));
+     
+     builder.setPositiveButton("Add Drink", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            double vol = genericSizesMl.get(spnSizes.getSelectedItemPosition())[0];
+	            double abv = genericDrinksAbv.get(spnDrinks.getSelectedItemPosition())[0];
+	            double units = ((nbrQuantity.getValue() * vol) * abv)/1000;
+	            units = currentUnits + units;
+	            addDrink(units);
+	        }
+	     });
+	    builder.setNegativeButton("Done", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	        	setupEditTextUnit(currentUnits);
+	        }
+	     });
+	 
+     builder.show();
+     
 	}
 	
 	private void postToServer(String unitsConsumed){

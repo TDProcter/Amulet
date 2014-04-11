@@ -37,8 +37,9 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f080000;
-        public static final int action_account_management=0x7f080030;
-        public static final int action_logout=0x7f08002f;
+        public static final int RelativeLayoutResults=0x7f08002d;
+        public static final int action_account_management=0x7f080034;
+        public static final int action_logout=0x7f080033;
         public static final int btnAddDrink=0x7f080013;
         public static final int btnBottleInspectionPortrait0=0x7f08001d;
         public static final int btnBottleInspectionPortrait1=0x7f08001b;
@@ -50,13 +51,14 @@ public final class R {
         public static final int btnCreateAccount=0x7f080021;
         public static final int btnDrinkDiary=0x7f080026;
         public static final int btnInspectionMenu=0x7f080023;
-        public static final int btnInspectionPost=0x7f080029;
         public static final int btnLogin=0x7f080020;
         public static final int btnPilotMenu=0x7f080022;
+        public static final int btnResultsPost=0x7f080029;
+        public static final int btnResultsUnitCalc=0x7f08002a;
         public static final int btnSequence=0x7f080024;
         public static final int btnSubmitDrinks=0x7f080014;
-        public static final int button1=0x7f08002e;
-        public static final int gridview=0x7f08002a;
+        public static final int button1=0x7f080032;
+        public static final int gridview=0x7f08002b;
         public static final int imageView1=0x7f080011;
         public static final int imgAccountManagement=0x7f080001;
         public static final int imgSkyInspectionPortrait=0x7f080015;
@@ -64,25 +66,27 @@ public final class R {
         public static final int imgTitleCreateAccount=0x7f08000f;
         public static final int imgTitleMenu=0x7f080025;
         public static final int imgWallInspectionPortrait=0x7f080016;
+        public static final int lblCalcUnits=0x7f080031;
         public static final int lblMngFullName=0x7f080003;
         public static final int lblMngFullNameView=0x7f080005;
         public static final int lblMngUserName=0x7f080002;
         public static final int lblMngUsernameView=0x7f080004;
         public static final int lstAddedDrinks=0x7f080012;
-        public static final int spnDrinks=0x7f08002c;
-        public static final int text1=0x7f08002b;
+        public static final int nbrCalcQuantity=0x7f080030;
+        public static final int spnCalcDrinks=0x7f08002e;
+        public static final int spnCalcSize=0x7f08002f;
+        public static final int text1=0x7f08002c;
         public static final int txtConfirmPassword=0x7f08000b;
-        public static final int txtDialogUnits=0x7f08002d;
         public static final int txtEmail=0x7f08000c;
         public static final int txtFirstname=0x7f080010;
-        public static final int txtInspectionScore=0x7f080027;
         public static final int txtMngConfirmPassword=0x7f080009;
         public static final int txtMngCurrentPassword=0x7f080007;
         public static final int txtMngNewPassword=0x7f080008;
         public static final int txtPassword=0x7f08000e;
         public static final int txtPasswordLogin=0x7f08001f;
+        public static final int txtResultsScore=0x7f080027;
+        public static final int txtResultsUnitsConsumed=0x7f080028;
         public static final int txtSurname=0x7f08000d;
-        public static final int txtUnitsConsumed=0x7f080028;
         public static final int txtUsernameLogin=0x7f08001e;
         public static final int view1=0x7f080018;
     }
