@@ -2,31 +2,66 @@ package procter.thomas.amulet;
 
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SimpleCursorAdapter;
 
 public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpData{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_account);
+		setContentView(R.layout.activity_view_task_history);
+		
+		setupList();
 	}
 	
-private void setupList(){
+	private void setupList() {
+
+		ContentResolver cr = getContentResolver();
+		Cursor cursor = StorageMethods.getTaskHistoryComplete(cr);
 		
-		
+		if(cursor.getCount()>0){
+			
+			
+			// The desired columns to be bound
+			  String[] columns = new String[] {
+					  AmuletContentProvider.KEY_TASKS_TASKTYPE_COLUMN, 
+					  AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN,
+					  AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN,
+					  AmuletContentProvider.KEY_TASKS_UNITSCONSUMED_COLUMN
+			  };
 			 
-			  ListView listView = (ListView) findViewById(R.id.lstAddedDrinks);
+			  // the XML defined views which the data will be bound to
+			  int[] to = new int[] { 
+			    R.id.lblTskLstTaskType,
+			    R.id.lblTskLstTimeStamp,
+			    R.id.lblTskLstTaskValue,
+			    R.id.lblTskLstUnitsConsumed
+			  };
+			 
+			  
+			  
+			  // create the adapter using the cursor pointing to the desired data 
+			  //as well as the layout information
+			  SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
+			    this, R.layout.task_history_list_view, 
+			    cursor, 
+			    columns, 
+			    to,
+			    0);
+			  
+	          
+			  ListView listView = (ListView) findViewById(R.id.lstTaskHistory);
 			  // Assign adapter to ListView
+			  listView.setAdapter(dataAdapter);
 			  
-			 // listView.setAdapter(dataAdapter);
+			}  
+		}
 			  
-	}
+	
 
 	@Override
 	public void onTaskCompleted(String httpData) {

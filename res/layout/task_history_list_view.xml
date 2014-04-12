@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lnrTaskHistoryList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2BDFFF" >
+
+        <TextView
+            android:id="@+id/lblTskLstTaskType"
+            android:layout_weight="0.25"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Task Type" />
+
+        <TextView
+            android:id="@+id/lblTskLstTimeStamp"
+            android:layout_weight="0.25"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Time Stamp" />
+
+        <TextView
+            android:id="@+id/lblTskLstTaskValue"
+            android:layout_weight="0.25"
+             android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Score" />
+
+        <TextView
+            android:id="@+id/lblTskLstUnitsConsumed"
+            android:layout_weight="0.25"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Units" />
+
+</LinearLayout>

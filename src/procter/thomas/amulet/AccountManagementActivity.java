@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,10 @@ public class AccountManagementActivity extends Activity implements OnRetrieveHtt
 	
 	public void changePassword(View view){
 		setContentView(R.layout.activity_change_password);
+	}
+	public void taskHistory(View view){
+		Intent intent = new Intent(this, ViewTaskHistoryActivity.class);
+		startActivity(intent);
 	}
 	
 	public void changePasswordComplete(View view){

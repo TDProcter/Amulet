@@ -64,12 +64,25 @@
         android:id="@+id/btnChangePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/lblMngFullName"
-        android:layout_centerHorizontal="true"
         android:onClick="changePassword"
         android:padding="20dp"
         android:shadowColor="#2BDFFF"
         android:text="Change Password"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnAccTaskHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnChangePassword"
+        android:layout_alignBottom="@+id/btnChangePassword"
+        android:layout_toRightOf="@+id/btnChangePassword"
+        android:onClick="taskHistory"
+        android:padding="20dp"
+        android:shadowColor="#2BDFFF"
+        android:text="Task History"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

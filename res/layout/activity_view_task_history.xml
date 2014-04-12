@@ -3,12 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    
+    <LinearLayout
+        android:id="@+id/lnrTaskHistoryTitles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" >
+        
+        <TextView
+        android:id="@+id/lblTskTaskType"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Task Type"
+        android:layout_weight="0.25"
+        android:layout_width="1dp" />
+
+    <TextView
+        android:id="@+id/lblTskTimeStamp"
+        android:layout_weight="0.25"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Time Stamp" />
+
+    <TextView
+        android:id="@+id/lblTskTaskValue"
+        android:layout_weight="0.25"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Score" />
+
+    <TextView
+        android:id="@+id/lblTskUnitsConsumed"
+        android:layout_weight="0.25"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Units" />
+    </LinearLayout>
+    
     <ListView
         android:id="@+id/lstTaskHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_below="@+id/lnrTaskHistoryTitles" >
+
     </ListView>
 
 </RelativeLayout>
