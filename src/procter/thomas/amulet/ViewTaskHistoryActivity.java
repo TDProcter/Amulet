@@ -10,20 +10,28 @@ import android.widget.SimpleCursorAdapter;
 
 public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpData{
 
+	private Cursor taskHistoryCursor;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_task_history);
-		
+		sync();
 		setupList();
+	}
+	
+	@Override
+	protected void onDestroy(){
+		
+		super.onDestroy();
+		taskHistoryCursor.close();
 	}
 	
 	private void setupList() {
 
 		ContentResolver cr = getContentResolver();
-		Cursor cursor = StorageMethods.getTaskHistoryComplete(cr);
+		taskHistoryCursor = StorageMethods.getTaskHistoryComplete(cr);
 		
-		if(cursor.getCount()>0){
+		if(taskHistoryCursor.getCount()>0){
 			
 			
 			// The desired columns to be bound
@@ -48,7 +56,7 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 			  //as well as the layout information
 			  SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
 			    this, R.layout.task_history_list_view, 
-			    cursor, 
+			    taskHistoryCursor, 
 			    columns, 
 			    to,
 			    0);
@@ -60,12 +68,24 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 			  
 			}  
 		}
+	
+	private void sync(){
+		ContentResolver cr = getContentResolver();
+		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);		
+		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "Default");
+		
+		retrieveData.execute("GET&SAVE", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory" +
+				"?username=" + username +
+				"&password=" + password +
+				"&tasktype=all"); 
+	}
 			  
 	
-
+	
 	@Override
 	public void onTaskCompleted(String httpData) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

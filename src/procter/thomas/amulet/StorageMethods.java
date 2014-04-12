@@ -213,6 +213,7 @@ public class StorageMethods {
 	}
 	
 	public boolean syncTasksFromServer(ContentResolver cr, String httpData){
+		Log.i("synctask", "try:");
 		try {
 				JSONArray jsonArray = new JSONArray(httpData);
 				//here query the database for the full set of synced data, this way we can check if we're up to data.
@@ -226,6 +227,7 @@ public class StorageMethods {
 					
 					Cursor taskCursor = getTaskHistoryByTimeStamp(cr, timeStamp);
 					if(!(taskCursor.getCount() > 0)){
+						Log.i("synctask", taskCursor.getCount()+"");
 						addNewTask(cr, taskType, timeStamp, taskValue, unitsConsumed, true);
 					}
 					taskCursor.close();

@@ -15,16 +15,24 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import android.content.ContentResolver;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 {
 	private OnRetrieveHttpData listener;
-	
+	private ContentResolver contentResolver;
+    
+	public RetrieveHTTPDataAsync(OnRetrieveHttpData listener, ContentResolver cr){
+		this.listener = listener;
+		this.contentResolver = cr;
+	}
 	public RetrieveHTTPDataAsync(OnRetrieveHttpData listener){
 		this.listener = listener;
+		
 	}
+	
 	public String getHTTPData(String url){
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
@@ -51,7 +59,7 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		}
 		
 		String dataString =  builder.toString();
-		Log.i("data string", builder.toString());
+		Log.i("get data string", builder.toString());
 		return dataString;
 	}
 	
@@ -92,28 +100,32 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		}
 		
 	    String dataString =  builder.toString();
-	    Log.i("data string", builder.toString());
+	    Log.i("post data string", builder.toString());
 		return dataString;
 	}
 
 	
 	@Override
-	protected String doInBackground(String... urls) {
+	protected String doInBackground(String... dataStrings) {
 		
 		String responseData = null;
-		if (urls.length > 0) 
+		if (dataStrings.length > 0) 
 		{
-			
-			if(urls[0].toString().equals("GET")){
-				
-				responseData = getHTTPData(urls[1]);
+			if(dataStrings[0].toString().equals("GET&SAVETASK")){
+				responseData = getHTTPData(dataStrings[1]);
+				StorageMethods meth = new StorageMethods();
+				meth.syncTasksFromServer(contentResolver, responseData);
 			}
-			else if(urls[0].equals("POST") && urls.length > 2){
-				responseData = postHTTPData(urls[1], urls[2]);
+			else if(dataStrings[0].toString().equals("GET")){
+				responseData = getHTTPData(dataStrings[1]);
+			}
+			else if(dataStrings[0].equals("POST") && dataStrings.length > 2){
+				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
 			}
 		}
 		return responseData;
-
+		
+		
 	}
 	
 	@Override
