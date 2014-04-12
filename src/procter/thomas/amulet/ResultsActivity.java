@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -32,6 +33,7 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	ArrayList<String> genericDrinks;
 	ArrayList<int[]> genericSizesMl;//the amount of liquid in mililetres
 	ArrayList<double[]> genericDrinksAbv;//The alcoholic volume of the drink (%)
+	boolean calibrate = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +48,11 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 		if(intent.getStringExtra("mode").equals("calibration")){
 			calibrate();
 		}
-		else{
+		
 			String scoreUnit = intent.getStringExtra("unit");
 			TextView textView = (TextView) findViewById(R.id.txtResultsScore);
 			textView.setText("Score: " + score + scoreUnit);
-		}
+		
 		setupDrinkList();
 	}
 	
@@ -63,6 +65,8 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	}
 	
 	public void menuButton(View v){
+		if(!calibrate)
+		{
 		TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
 		String unitsConsumed = unitsTextView.getText().toString();
 		double convertUnits = Double.parseDouble(unitsConsumed);
@@ -73,12 +77,20 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 		else{
 			postToServer(unitsConsumed);
 		}
-		
+		}
+		else{
+			postToServer("0");
+		}
 		
 	}
 	private void calibrate(){
 		SharedPreferencesWrapper.saveToPrefs(this, task+"BaseLine", score+"");
-		postToServer("0");
+		calibrate = true;
+		final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
+		final Button btnCalc = (Button) findViewById(R.id.btnResultsUnitCalc);
+		txtUnits.setVisibility(View.INVISIBLE);
+		btnCalc.setVisibility(View.INVISIBLE);
+		
 	}
 private void calibrationConfirmation(){
 		
@@ -107,6 +119,7 @@ private void calibrationConfirmation(){
 		
 	}
 public void unitCalcButton(View view){
+	if(!calibrate){
 	final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
 	if(txtUnits.getText().toString().equals("")){
 		addDrink(0);
@@ -115,6 +128,8 @@ public void unitCalcButton(View view){
 	addDrink(Double.parseDouble(txtUnits.getText().toString()));
 	
 	}
+	}
+	
 }
 
 private void setupEditTextUnit(double units){
@@ -216,8 +231,8 @@ private void addDrink(final double currentUnits){
 		JSONObject obj = storageMethods.packTaskCursor(this, taskCursor);
 		Log.i("obj", obj.toString());
 		String HTTPString = obj.toString();
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
-		retrieveData.execute("POST", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
+		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);
+		retrieveData.execute("POST&UPDATETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
 		
 		taskCursor.close();
 		startMenu();

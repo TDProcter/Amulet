@@ -33,7 +33,7 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 	private void setupList() {
 
 		ContentResolver cr = getContentResolver();
-		taskHistoryCursor = StorageMethods.getTaskHistoryComplete(cr);
+		taskHistoryCursor = StorageMethods.getTaskHistoryComplete(cr, AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN);
 		
 		if(taskHistoryCursor.getCount()>0){
 			
@@ -88,15 +88,21 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 		retrieveData.execute("POST&UPDATETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
 		}
 		unsyncedTaskCursor.close();
-		retrieveData.execute("GET&SAVETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory" +
-				"?username=" + username +
-				"&password=" + password +
-				"&tasktype=all"); 
+		
 	}
 	
 	@Override
 	public void onTaskCompleted(String httpData) {
+		ContentResolver cr = getContentResolver();
+		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);	
+		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "Default");
 		
-		
+		if(httpData.contains("tasks received")){
+			retrieveData.execute("GET&SAVETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory" +
+					"?username=" + username +
+					"&password=" + password +
+					"&tasktype=all"); 
+		}
 	}
 }

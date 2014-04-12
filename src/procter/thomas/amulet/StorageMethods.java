@@ -74,7 +74,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getTaskHistoryComplete(ContentResolver cr) {
+	public static Cursor getTaskHistoryComplete(ContentResolver cr, String orderBy) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -94,7 +94,7 @@ public class StorageMethods {
 		// Specify the where clause that will limit your results.
 		String where = null;
 		String whereArgs[] = null;
-		String order = null;
+		String order = orderBy;
 
 		Cursor resultCursor = cr.query(rowAddress, result_columns, where,
 				whereArgs, order);
@@ -244,7 +244,7 @@ public class StorageMethods {
 			
 				JSONArray jsonArray = new JSONArray(httpData);
 				//here query the database for the full set of synced data, this way we can check if we're up to data.
-				Cursor taskHistory = getTaskHistoryComplete(cr);
+				
 				//if(!(taskHistory.getCount() == jsonArray.length())){//only works if data is posted first
 				
 				for(int i = 0; i < jsonArray.length(); i++){
@@ -255,6 +255,7 @@ public class StorageMethods {
 					String timeStamp = innerObj.getString("timestamp");
 					timeStamp = timeStamp.replace("T", " ");
 					
+					
 					Cursor taskCursor = getTaskHistoryByTimeStamp(cr, timeStamp);
 					if(!(taskCursor.getCount() > 0)){
 						
@@ -262,7 +263,7 @@ public class StorageMethods {
 					}
 					taskCursor.close();
 				}
-				taskHistory.close();
+			
 			//}
 			
 		} catch (JSONException e) {
