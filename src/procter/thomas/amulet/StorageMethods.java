@@ -131,6 +131,30 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
+	public static void updateTask(ContentResolver cr, long rowId, String taskType,
+			String timeStamp, String taskValue,
+			String unitsConsumed, boolean synced) {
+		
+		// Create a new row of values to insert.
+		ContentValues newValues = new ContentValues();
+
+		// Assign values for each row.
+		newValues.put(AmuletContentProvider.KEY_TASKS_TASKTYPE_COLUMN, taskType);
+		newValues.put(AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN, timeStamp);
+		newValues.put(AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN, taskValue);
+		newValues.put(AmuletContentProvider.KEY_TASKS_UNITSCONSUMED_COLUMN, unitsConsumed);
+		newValues.put(AmuletContentProvider.KEY_TASKS_SYNCED_COLUMN, synced);
+		
+		
+
+		Uri rowAddress = ContentUris.withAppendedId(
+				AmuletContentProvider.CONTENT_URI_TASKS, rowId);
+		
+		// Insert the row into your table
+		cr.update(rowAddress, newValues, null, null);
+		
+	}
+	
 	public JSONObject taskObject(Context context, String unitsConsumed, int score, String task, String timeStamp){
 		JSONObject obj = new JSONObject();
 		String username = SharedPreferencesWrapper.getFromPrefs(context, "username", "default");
@@ -170,7 +194,7 @@ public class StorageMethods {
 		JSONObject obj = new JSONObject();
 		String username = SharedPreferencesWrapper.getFromPrefs(context, "username", "default");
 		String password = SharedPreferencesWrapper.getFromPrefs(context, "password", "default");
-		JSONObject entries = new JSONObject();
+		
 		
 		
 		
@@ -181,6 +205,7 @@ public class StorageMethods {
 		
 		try {
 			while (taskCursor.moveToNext()) {
+				JSONObject entries = new JSONObject();
 				String unitsConsumed = taskCursor
 						.getString(taskCursor
 								.getColumnIndex(AmuletContentProvider.KEY_TASKS_UNITSCONSUMED_COLUMN));
@@ -213,10 +238,53 @@ public class StorageMethods {
 	}
 	
 	public boolean syncTasksFromServer(ContentResolver cr, String httpData){
+		
 		Log.i("synctask", "try:");
 		try {
+			
 				JSONArray jsonArray = new JSONArray(httpData);
 				//here query the database for the full set of synced data, this way we can check if we're up to data.
+				Cursor taskHistory = getTaskHistoryComplete(cr);
+				//if(!(taskHistory.getCount() == jsonArray.length())){//only works if data is posted first
+				
+				for(int i = 0; i < jsonArray.length(); i++){
+					JSONObject innerObj = jsonArray.getJSONObject(i);
+					String unitsConsumed = innerObj.getString("unitsconsumed");
+					String taskValue = innerObj.getString("taskvalue");
+					String taskType = innerObj.getString("tasktype");
+					String timeStamp = innerObj.getString("timestamp");
+					timeStamp = timeStamp.replace("T", " ");
+					
+					Cursor taskCursor = getTaskHistoryByTimeStamp(cr, timeStamp);
+					if(!(taskCursor.getCount() > 0)){
+						
+						addNewTask(cr, taskType, timeStamp, taskValue, unitsConsumed, true);
+					}
+					taskCursor.close();
+				}
+				taskHistory.close();
+			//}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	public boolean updateSyncedTasks(ContentResolver cr, String httpData){
+		Log.i("synctask", httpData);
+		
+		try {
+			JSONObject obj = new JSONObject(httpData);
+			if(obj.has("tasks")){
+				
+				JSONArray jsonArray = obj.getJSONArray("tasks");
+				//here query the database for the full set of synced data, this way we can check if we're up to data.
+				//Cursor taskHistory = getTaskHistoryComplete(cr);
+				//if(!(taskHistory.getCount() == jsonArray.length())){//only works if data is posted first
 				
 				for(int i = 0; i < jsonArray.length(); i++){
 					JSONObject innerObj = jsonArray.getJSONObject(i);
@@ -225,14 +293,19 @@ public class StorageMethods {
 					String taskType = innerObj.getString("tasktype");
 					String timeStamp = innerObj.getString("timestamp");
 					
-					Cursor taskCursor = getTaskHistoryByTimeStamp(cr, timeStamp);
-					if(!(taskCursor.getCount() > 0)){
-						Log.i("synctask", taskCursor.getCount()+"");
-						addNewTask(cr, taskType, timeStamp, taskValue, unitsConsumed, true);
+					Cursor current = getTaskHistoryByTimeStamp(cr, timeStamp);
+					//Log.i("count", current.getCount()+"");
+					if(current.getCount() > 0){
+					current.moveToFirst();
+					long rowId = current.getLong(current.getColumnIndex(AmuletContentProvider.KEY_ID));
+					Log.i("rowid", rowId+"");
+					updateTask(cr, rowId, taskType, timeStamp, taskValue, unitsConsumed, true);
 					}
-					taskCursor.close();
+					current.close();
+				}
+				//taskHistory.close();
+			//}
 			}
-			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

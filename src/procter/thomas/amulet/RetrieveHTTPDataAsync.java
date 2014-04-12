@@ -104,6 +104,13 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		return dataString;
 	}
 
+	public void updateTaskTable(String responseData, String httpData){
+		
+		if(responseData.contains("tasks received")){
+		StorageMethods meth = new StorageMethods();
+		meth.updateSyncedTasks(contentResolver, httpData);
+		}
+	}
 	
 	@Override
 	protected String doInBackground(String... dataStrings) {
@@ -119,7 +126,11 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 			else if(dataStrings[0].toString().equals("GET")){
 				responseData = getHTTPData(dataStrings[1]);
 			}
-			else if(dataStrings[0].equals("POST") && dataStrings.length > 2){
+			else if(dataStrings[0].toString().equals("POST&UPDATETASK") && dataStrings.length > 2){
+				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
+				updateTaskTable(responseData, dataStrings[2]);
+			}
+			else if(dataStrings[0].toString().equals("POST") && dataStrings.length > 2){
 				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
 			}
 		}
@@ -127,6 +138,7 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		
 		
 	}
+	
 	
 	@Override
 	protected void onPostExecute(String httpData){

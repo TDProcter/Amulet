@@ -1,16 +1,20 @@
 package procter.thomas.amulet;
 
+import org.json.JSONObject;
+
 import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpData{
 
 	private Cursor taskHistoryCursor;
+	SimpleCursorAdapter dataAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,9 +24,9 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 	}
 	
 	@Override
-	protected void onDestroy(){
+	protected void onStop(){
 		
-		super.onDestroy();
+		super.onStop();
 		taskHistoryCursor.close();
 	}
 	
@@ -54,7 +58,7 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 			  
 			  // create the adapter using the cursor pointing to the desired data 
 			  //as well as the layout information
-			  SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
+			  dataAdapter = new SimpleCursorAdapter(
 			    this, R.layout.task_history_list_view, 
 			    taskHistoryCursor, 
 			    columns, 
@@ -71,17 +75,24 @@ public class ViewTaskHistoryActivity extends Activity implements OnRetrieveHttpD
 	
 	private void sync(){
 		ContentResolver cr = getContentResolver();
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);		
+		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);	
+		StorageMethods meth = new StorageMethods();
 		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default");
 		String password = SharedPreferencesWrapper.getFromPrefs(this, "password", "Default");
 		
-		retrieveData.execute("GET&SAVE", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory" +
+		Cursor unsyncedTaskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
+		Log.i("unsyncedcount", unsyncedTaskCursor.getCount()+"");
+		if(unsyncedTaskCursor.getCount()>0){
+		JSONObject jsonObject = meth.packTaskCursor(this, unsyncedTaskCursor);
+		String HTTPString = jsonObject.toString();
+		retrieveData.execute("POST&UPDATETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
+		}
+		unsyncedTaskCursor.close();
+		retrieveData.execute("GET&SAVETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory" +
 				"?username=" + username +
 				"&password=" + password +
 				"&tasktype=all"); 
 	}
-			  
-	
 	
 	@Override
 	public void onTaskCompleted(String httpData) {
