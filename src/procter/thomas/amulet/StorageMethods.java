@@ -550,5 +550,12 @@ public boolean syncDiaryFromServer(ContentResolver cr, String httpData){
 		return false;
 	}
 	
+	public static int deleteAll(ContentResolver cr){
+		int numberDeleted = cr.delete(AmuletContentProvider.CONTENT_URI_TASKS, null, null)
+				+  cr.delete(AmuletContentProvider.CONTENT_URI_DIARY, null, null);
+		
+		return numberDeleted;
+	}
+	
 	
 }

@@ -103,8 +103,9 @@ public class ViewTaskHistoryActivity extends Activity implements OnExchangeHttpD
 			retrieveData.execute("POST&UPDATETASK",
 					"http://08309.net.dcs.hull.ac.uk/api/admin/task",
 					HTTPString);
-			unsyncedTaskCursor.close();
+			
 		}
+		unsyncedTaskCursor.close();
 		
 	}
 }

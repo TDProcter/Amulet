@@ -2,9 +2,11 @@ package procter.thomas.amulet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -149,6 +151,10 @@ private void calibrationConfirmation(final Intent intent){
 		SharedPreferencesWrapper.removeFromPrefs(this, "username");
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
 		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
+		
+		ContentResolver cr = getContentResolver();
+		int deleted = StorageMethods.deleteAll(cr);
+		Log.i("deleted", deleted+"");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}

@@ -138,13 +138,16 @@ public class AmuletContentProvider extends ContentProvider {
 	        selection = KEY_ID + "=" + rowID
 	            + (!TextUtils.isEmpty(selection) ? 
 	              " AND (" + selection + ')' : "");
+	      case TASKS_ALLROWS : 
 	        TABLE_NAME = AmuletDBOpenHelper.TASKS_TABLE;
 	        break;
+	      
 	      case DIARY_SINGLE_ROW : 
 		        rowID = uri.getPathSegments().get(1);
 		        selection = KEY_ID + "=" + rowID
 		            + (!TextUtils.isEmpty(selection) ? 
 		              " AND (" + selection + ')' : "");
+	      case DIARY_ALLROWS : 
 		        TABLE_NAME = AmuletDBOpenHelper.DIARY_TABLE;
 		        break;
 	      default: break;
