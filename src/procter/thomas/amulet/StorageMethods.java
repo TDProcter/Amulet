@@ -14,6 +14,12 @@ import android.util.Log;
 
 public class StorageMethods {
 
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TASK HISTORY METHODS////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public static Uri addNewTask(ContentResolver cr, String taskType,
 			String timeStamp, String taskValue,
 			String unitsConsumed, boolean synced) {
@@ -155,38 +161,6 @@ public class StorageMethods {
 		
 	}
 	
-	public JSONObject taskObject(Context context, String unitsConsumed, int score, String task, String timeStamp){
-		JSONObject obj = new JSONObject();
-		String username = SharedPreferencesWrapper.getFromPrefs(context, "username", "default");
-		String password = SharedPreferencesWrapper.getFromPrefs(context, "password", "default");
-		JSONObject tasks = new JSONObject();
-		
-		
-		
-		JSONArray taskArray = new JSONArray();
-		
-		Log.i("time: ", timeStamp);
-		String taskValue = score + "";
-		
-		try {
-			tasks.put("tasktype",  task);
-			tasks.put("timestamp",  timeStamp);
-			tasks.put("taskvalue",  taskValue);
-			tasks.put("unitsconsumed",  unitsConsumed);
-			
-			taskArray.put(tasks);
-			obj.put("username", username);
-			obj.put("password", password);
-			obj.put("tasks", taskArray);
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return obj;
-	}
-	
 	public JSONObject packTaskCursor(Context context, Cursor taskCursor){
 		
 		
@@ -313,6 +287,266 @@ public class StorageMethods {
 		}
 		
 		
+		return false;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////// DRINK DIARY METHODS//////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static Uri addNewDiaryEntry(ContentResolver cr, String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
+		
+		// Create a new row of values to insert.
+		ContentValues newValues = new ContentValues();
+
+		// Assign values for each row.
+		newValues.put(AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN, timeStamp);
+		newValues.put(AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN, drinkType);
+		newValues.put(AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN, unitsConsumed);
+		newValues.put(AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN, synced);
+		
+		
+		
+
+		// Insert the row into your table
+		Uri myRowUri = cr.insert(AmuletContentProvider.CONTENT_URI_DIARY,
+				newValues);
+		
+		//
+		return myRowUri;
+	}
+	
+	public static int deleteDiaryEntry(ContentResolver cr, long rowId){
+		Uri rowAddress = ContentUris.withAppendedId(
+				AmuletContentProvider.CONTENT_URI_DIARY, rowId);
+		int numberDeleted = cr.delete(rowAddress, null, null);
+		return numberDeleted;
+	}
+	
+	public static Cursor getDiaryEntryByTimeStamp(ContentResolver cr, String timeStamp) {
+
+		// Specify the result column projection. Return the minimum set
+		// of columns required to satisfy your requirements.
+		String[] result_columns = new String[] { 
+				AmuletContentProvider.KEY_ID,
+				AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN };
+		
+		
+
+		// Append a row ID to the URI to address a specific row.
+		Uri rowAddress = AmuletContentProvider.CONTENT_URI_DIARY;
+
+		// Specify the where clause that will limit your results.
+		String where = AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN
+				+ "=?";
+		String whereArgs[] = {timeStamp};
+		String order = null;
+
+		Cursor resultCursor = cr.query(rowAddress, result_columns, where,
+				whereArgs, order);
+
+		return resultCursor;
+	}
+	
+	public static Cursor getDrinkDiaryComplete(ContentResolver cr, String orderBy) {
+
+		// Specify the result column projection. Return the minimum set
+		// of columns required to satisfy your requirements.
+		String[] result_columns = new String[] { 
+				AmuletContentProvider.KEY_ID,
+				AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN };
+		
+		
+
+		// Append a row ID to the URI to address a specific row.
+		Uri rowAddress = AmuletContentProvider.CONTENT_URI_DIARY;
+
+		// Specify the where clause that will limit your results.
+		String where = null;
+		String whereArgs[] = null;
+		String order = orderBy;
+
+		Cursor resultCursor = cr.query(rowAddress, result_columns, where,
+				whereArgs, order);
+
+		return resultCursor;
+	}
+	
+	public static Cursor getUnsyncedDrinkDiary(ContentResolver cr) {
+
+		// Specify the result column projection. Return the minimum set
+		// of columns required to satisfy your requirements.
+		String[] result_columns = new String[] { 
+				AmuletContentProvider.KEY_ID,
+				AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN, 
+				AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN };
+		
+		
+
+		// Append a row ID to the URI to address a specific row.
+		Uri rowAddress = AmuletContentProvider.CONTENT_URI_DIARY;
+
+		// Specify the where clause that will limit your results.
+		String where = AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN
+				+ "=?";
+		String whereArgs[] = {"0"};
+		String order = null;
+
+		Cursor resultCursor = cr.query(rowAddress, result_columns, where,
+				whereArgs, order);
+
+		return resultCursor;
+	}
+	
+	public static void updateDrinkDiaryEntry(ContentResolver cr, long rowId,  String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
+		
+		// Create a new row of values to insert.
+		ContentValues newValues = new ContentValues();
+
+		// Assign values for each row.
+		newValues.put(AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN, timeStamp);
+		newValues.put(AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN, drinkType);
+		newValues.put(AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN, unitsConsumed);
+		newValues.put(AmuletContentProvider.KEY_DIARY_SYNCED_COLUMN, synced);
+		
+		
+
+		Uri rowAddress = ContentUris.withAppendedId(
+				AmuletContentProvider.CONTENT_URI_DIARY, rowId);
+		
+		// Insert the row into your table
+		cr.update(rowAddress, newValues, null, null);
+		
+	}
+	
+public JSONObject packDiaryCursor(Context context, Cursor diaryCursor){
+		
+		
+		
+		JSONObject obj = new JSONObject();
+		String username = SharedPreferencesWrapper.getFromPrefs(context, "username", "default");
+		String password = SharedPreferencesWrapper.getFromPrefs(context, "password", "default");
+		
+		
+		
+		
+		JSONArray entriesArray = new JSONArray();
+		
+		
+		
+		
+		try {
+			while (diaryCursor.moveToNext()) {
+				JSONObject entries = new JSONObject();
+				String unitsConsumed = diaryCursor
+						.getString(diaryCursor
+								.getColumnIndex(AmuletContentProvider.KEY_DIARY_UNITSCONSUMED_COLUMN));
+				String drinkType = diaryCursor
+						.getString(diaryCursor
+								.getColumnIndex(AmuletContentProvider.KEY_DIARY_DRINKTYPE_COLUMN));
+				String timeStamp = diaryCursor
+						.getString(diaryCursor
+								.getColumnIndex(AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN));
+				
+				
+				entries.put("timestamp", timeStamp);
+				entries.put("drinktype", drinkType);
+				entries.put("unitsconsumed", unitsConsumed);
+				entriesArray.put(entries);
+			}
+			
+			obj.put("username", username);
+			obj.put("password", password);
+			obj.put("entries", entriesArray);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return obj;
+	}
+
+public boolean syncDiaryFromServer(ContentResolver cr, String httpData){
+	
+	Log.i("syncDiary", "try:");
+	try {
+		
+			JSONArray jsonArray = new JSONArray(httpData);
+			//here query the database for the full set of synced data, this way we can check if we're up to data.
+			
+			
+			
+			for(int i = 0; i < jsonArray.length(); i++){
+				JSONObject innerObj = jsonArray.getJSONObject(i);
+				String unitsConsumed = innerObj.getString("unitsconsumed");
+				String timeStamp = innerObj.getString("timestamp");
+				String drinkType = innerObj.getString("drinktype");
+				
+				timeStamp = timeStamp.replace("T", " ");
+				
+				
+				Cursor diaryCursor = getDiaryEntryByTimeStamp(cr, timeStamp);
+				if(!(diaryCursor.getCount() > 0)){
+					
+					addNewDiaryEntry(cr, timeStamp, drinkType, unitsConsumed, true);
+				}
+				diaryCursor.close();
+			}
+		
+		
+		
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return false;
+}
+
+	public boolean updateSyncedDiaryEntries(ContentResolver cr, String httpData) {
+		Log.i("syncDiary", httpData);
+
+		try {
+			JSONObject obj = new JSONObject(httpData);
+			if (obj.has("entries")) {
+
+				JSONArray jsonArray = obj.getJSONArray("entries");
+
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject innerObj = jsonArray.getJSONObject(i);
+					String unitsConsumed = innerObj.getString("unitsconsumed");
+					String timeStamp = innerObj.getString("timestamp");
+					String drinkType = innerObj.getString("drinktype");
+
+					Cursor current = getDiaryEntryByTimeStamp(cr, timeStamp);
+					// Log.i("count", current.getCount()+"");
+					if (current.getCount() > 0) {
+						current.moveToFirst();
+						long rowId = current.getLong(current
+								.getColumnIndex(AmuletContentProvider.KEY_ID));
+						Log.i("rowid", rowId + "");
+						updateDrinkDiaryEntry(cr, rowId, timeStamp, drinkType,
+								unitsConsumed, true);
+					}
+					current.close();
+				}
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 	

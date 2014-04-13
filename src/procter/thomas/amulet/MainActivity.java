@@ -3,7 +3,7 @@ package procter.thomas.amulet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnRetrieveHttpData{
+public class MainActivity extends Activity implements OnExchangeHttpData{
 	
 	private boolean debugMode = true;
 	
@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements OnRetrieveHttpData{
 			SharedPreferencesWrapper.saveToPrefs(this, "username", username);
 			SharedPreferencesWrapper.saveToPrefs(this, "password", password);
 		
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
+		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this);
 		Log.i("test", username + " " + password);
 		 retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/details?" +
 				"username=" + username +

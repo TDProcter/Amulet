@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
-import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -25,7 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ResultsActivity extends Activity implements OnRetrieveHttpData{
+public class ResultsActivity extends Activity implements OnExchangeHttpData{
 
 	int score;
 	String task;
@@ -65,26 +65,23 @@ public class ResultsActivity extends Activity implements OnRetrieveHttpData{
 	}
 	
 	public void menuButton(View v){
-		if(!calibrate)
-		{
-		TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
-		String unitsConsumed = unitsTextView.getText().toString();
-		double convertUnits = Double.parseDouble(unitsConsumed);
-		unitsConsumed = String.format(Locale.UK, "%.2f", convertUnits);
-		if(unitsConsumed.equals("0")){
-			calibrationConfirmation();
-		}
-		else{
-			postToServer(unitsConsumed);
-		}
-		}
-		else{
+		if (!calibrate) {
+			TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
+			String unitsConsumed = unitsTextView.getText().toString();
+			double convertUnits = Double.parseDouble(unitsConsumed);
+			unitsConsumed = String.format(Locale.UK, "%.2f", convertUnits);
+			if (unitsConsumed.equals("0")) {
+				calibrationConfirmation();
+			} else {
+				postToServer(unitsConsumed);
+			}
+		} else {
+			SharedPreferencesWrapper.saveToPrefs(this, task+"BaseLine", score+"");
 			postToServer("0");
 		}
 		
 	}
 	private void calibrate(){
-		SharedPreferencesWrapper.saveToPrefs(this, task+"BaseLine", score+"");
 		calibrate = true;
 		final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
 		final Button btnCalc = (Button) findViewById(R.id.btnResultsUnitCalc);
@@ -231,7 +228,7 @@ private void addDrink(final double currentUnits){
 		JSONObject obj = storageMethods.packTaskCursor(this, taskCursor);
 		Log.i("obj", obj.toString());
 		String HTTPString = obj.toString();
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this, cr);
+		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this, cr);
 		retrieveData.execute("POST&UPDATETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
 		
 		taskCursor.close();

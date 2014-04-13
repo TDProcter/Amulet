@@ -14,7 +14,7 @@ public class PilotActivity extends Activity{
         
         // set our MainGamePanel as the View
         
-        setContentView(new DrawingPanel(this));
+        setContentView(new PilotSurfaceView(this));
         Log.d("TAG", "View added");
     }
 

@@ -7,7 +7,7 @@
     android:background="#2BDFFF">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imgDrinkDiaryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -29,8 +29,8 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_below="@+id/imageView1"
+        android:layout_alignLeft="@+id/imgDrinkDiaryTitle"
+        android:layout_below="@+id/imgDrinkDiaryTitle"
         android:onClick="addButton"
         android:text="Add Item"
         android:textColor="#FFFFFF" />
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/lstAddedDrinks"
-        android:layout_alignRight="@+id/imageView1"
+        android:layout_alignRight="@+id/imgDrinkDiaryTitle"
         style="?android:attr/borderlessButtonStyle"
         android:onClick="submitButton"
         android:text="Submit" 

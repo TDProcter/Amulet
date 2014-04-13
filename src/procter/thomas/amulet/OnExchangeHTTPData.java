@@ -1,8 +1,8 @@
 package procter.thomas.amulet;
 
-public class OnRetrieveHTTPData {
+public class OnExchangeHTTPData {
 	
-	public interface OnRetrieveHttpData {
+	public interface OnExchangeHttpData {
 		void onTaskCompleted(String httpData);
 	}
 

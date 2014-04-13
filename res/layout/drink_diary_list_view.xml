@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LnrDrinkDiaryList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2BDFFF" >
+
+    <TextView
+        android:id="@+id/lblDryLstTimeStamp"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="timeStamp" />
+
+    <TextView
+        android:id="@+id/lblDryLstDrinkType"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="drinktype" />
+
+    <TextView
+        android:id="@+id/lblDryLstUnitsConsumed"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="unitsConsumed" />
+
+</LinearLayout>

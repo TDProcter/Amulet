@@ -13,10 +13,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
+public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
 
 	
-	private MainThread thread;
+	private PilotThread thread;
 	private PilotShape pilotPlayer;
 	private PilotShape[] badGuys;
 	private final int noOfBadGuys = 6;
@@ -26,12 +26,12 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 	private int badGuySize = 500; //Perimeter divided by 2
 	private int playerSize = 200; //Perimeter divided by 2
 	private boolean stopOnTouch = false;
-	public DrawingPanel(Context context) {
+	public PilotSurfaceView(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
 		// create the game loop thread
-		thread = new MainThread(getHolder(), this);
+		thread = new PilotThread(getHolder(), this);
 		
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
@@ -90,7 +90,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback{
 				height = 50* (random.nextInt(10) + 1);
 				width = 50 * (random.nextInt(10) + 1);
 			} while (height+width != badGuySize);
-			Log.i("size", height + ",  " + width);
+			//Log.i("size", height + ",  " + width);
 			badGuys[i] = new PilotShape((badGuySize)+1, (badGuySize)+1, width, height,
 					enemyColour, new Point(dirX*speed, dirY*speed));
 

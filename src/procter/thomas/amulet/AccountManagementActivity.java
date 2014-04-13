@@ -3,7 +3,7 @@ package procter.thomas.amulet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AccountManagementActivity extends Activity implements OnRetrieveHttpData{
+public class AccountManagementActivity extends Activity implements OnExchangeHttpData{
 
 	
 	@Override
@@ -46,7 +46,7 @@ public class AccountManagementActivity extends Activity implements OnRetrieveHtt
 			String newPassword = txtNewPassword.getText().toString();
 			String oldPassword = txtOldPassword.getText().toString();
 			String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "defaultUserName");
-			RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
+			ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this);
 			retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/change?" +
 					"username=" + username +
 					"&oldpassword=" + oldPassword +

@@ -14,21 +14,22 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
+
 import android.content.ContentResolver;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
+public class ExchangeHTTPDataAsync extends AsyncTask<String, Void,  String>
 {
-	private OnRetrieveHttpData listener;
+	private OnExchangeHttpData listener;
 	private ContentResolver contentResolver;
     
-	public RetrieveHTTPDataAsync(OnRetrieveHttpData listener, ContentResolver cr){
+	public ExchangeHTTPDataAsync(OnExchangeHttpData listener, ContentResolver cr){
 		this.listener = listener;
 		this.contentResolver = cr;
 	}
-	public RetrieveHTTPDataAsync(OnRetrieveHttpData listener){
+	public ExchangeHTTPDataAsync(OnExchangeHttpData listener){
 		this.listener = listener;
 		
 	}
@@ -112,6 +113,14 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 		}
 	}
 	
+public void updateDiaryTable(String responseData, String httpData){
+		
+		if(responseData.contains("entries received")){
+		StorageMethods meth = new StorageMethods();
+		meth.updateSyncedDiaryEntries(contentResolver, httpData);
+		}
+	}
+	
 	@Override
 	protected String doInBackground(String... dataStrings) {
 		
@@ -123,12 +132,21 @@ public class RetrieveHTTPDataAsync extends AsyncTask<String, Void,  String>
 				StorageMethods meth = new StorageMethods();
 				meth.syncTasksFromServer(contentResolver, responseData);
 			}
+			else if(dataStrings[0].toString().equals("GET&SAVEDIARY")){
+				responseData = getHTTPData(dataStrings[1]);
+				StorageMethods meth = new StorageMethods();
+				meth.syncDiaryFromServer(contentResolver, responseData);
+			}
 			else if(dataStrings[0].toString().equals("GET")){
 				responseData = getHTTPData(dataStrings[1]);
 			}
 			else if(dataStrings[0].toString().equals("POST&UPDATETASK") && dataStrings.length > 2){
 				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
 				updateTaskTable(responseData, dataStrings[2]);
+			}
+			else if(dataStrings[0].toString().equals("POST&UPDATEDIARY") && dataStrings.length > 2){
+				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
+				updateDiaryTable(responseData, dataStrings[2]);
 			}
 			else if(dataStrings[0].toString().equals("POST") && dataStrings.length > 2){
 				responseData = postHTTPData(dataStrings[1], dataStrings[2]);

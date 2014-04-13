@@ -17,10 +17,12 @@ import android.util.Log;
 public class AmuletContentProvider extends ContentProvider {
 	  public static final String AUTHORITY = "procter.thomas.amuletcontentprovider";
 	  public static final String TASKS_PATH = "tasksTable";
+	  public static final String DIARY_PATH = "diaryTable";
 	  
 	  
 	  
 	  public static final Uri CONTENT_URI_TASKS = Uri.parse("content://" + AUTHORITY + "/" + TASKS_PATH);
+	  public static final Uri CONTENT_URI_DIARY = Uri.parse("content://" + AUTHORITY + "/" + DIARY_PATH);
 	  
 	  static final String TAG = "AMULETCONTENTPROVIDER";
 	  
@@ -28,6 +30,8 @@ public class AmuletContentProvider extends ContentProvider {
 	  
 	  private static final int TASKS_ALLROWS = 1;
 	  private static final int TASKS_SINGLE_ROW = 2;
+	  private static final int DIARY_ALLROWS = 3;
+	  private static final int DIARY_SINGLE_ROW = 4;
 	  
 	  private static final UriMatcher uriMatcher;
 	  
@@ -38,7 +42,8 @@ public class AmuletContentProvider extends ContentProvider {
 	   uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	   uriMatcher.addURI(AUTHORITY, TASKS_PATH, TASKS_ALLROWS);
 	   uriMatcher.addURI(AUTHORITY, TASKS_PATH + "/#", TASKS_SINGLE_ROW);
-	   
+	   uriMatcher.addURI(AUTHORITY, DIARY_PATH, DIARY_ALLROWS);
+	   uriMatcher.addURI(AUTHORITY, DIARY_PATH + "/#", DIARY_SINGLE_ROW);	   
 	  }
 	  
 	  // The index (key) column name for use in where clauses.
@@ -56,6 +61,16 @@ public class AmuletContentProvider extends ContentProvider {
 			   "TASKS_UNITSCONSUMED_COLUMN";
 	  public static final String KEY_TASKS_SYNCED_COLUMN =
 			  "TASKS_SYNCED_COLUMN";
+	  
+	//Diary Table - column names
+	  public static final String KEY_DIARY_TIMESTAMP_COLUMN =  
+			   "DIARY_TIMESTAMP_COLUMN";
+	  public static final String KEY_DIARY_DRINKTYPE_COLUMN =  
+			   "DIARY_DRINKTYPE_COLUMN";
+	  public static final String KEY_DIARY_UNITSCONSUMED_COLUMN =  
+			   "DIARY_UNITSCONSUMED_COLUMN";
+	  public static final String KEY_DIARY_SYNCED_COLUMN =
+			  "DIARY_SYNCED_COLUMN";
 
 	  // Database open/upgrade helper
 	  private AmuletDBOpenHelper amuletDBOpenHelper;
@@ -86,16 +101,23 @@ public class AmuletContentProvider extends ContentProvider {
 	    
 	    String rowID;
 	    // If this is a row query, limit the result set to the passed in row.
-	    switch (uriMatcher.match(uri)) {
-	      case TASKS_SINGLE_ROW : 
-	        rowID = uri.getPathSegments().get(1);
-	        queryBuilder.appendWhere(KEY_ID + "=" + rowID);
-	      case TASKS_ALLROWS :
-	    	  queryBuilder.setTables(AmuletDBOpenHelper.TASKS_TABLE);
-	    	  break;
-	      	  
-	      default: break;
-	    }
+		switch (uriMatcher.match(uri)) {
+		case TASKS_SINGLE_ROW:
+			rowID = uri.getPathSegments().get(1);
+			queryBuilder.appendWhere(KEY_ID + "=" + rowID);
+		case TASKS_ALLROWS:
+			queryBuilder.setTables(AmuletDBOpenHelper.TASKS_TABLE);
+			break;
+		case DIARY_SINGLE_ROW:
+			rowID = uri.getPathSegments().get(1);
+			queryBuilder.appendWhere(KEY_ID + "=" + rowID);
+		case DIARY_ALLROWS:
+			queryBuilder.setTables(AmuletDBOpenHelper.DIARY_TABLE);
+			break;
+
+		default:
+			break;
+		}
 	    
 	    Cursor cursor = queryBuilder.query(db, projection, selection,
 	        selectionArgs, groupBy, having, sortOrder);
@@ -118,6 +140,13 @@ public class AmuletContentProvider extends ContentProvider {
 	              " AND (" + selection + ')' : "");
 	        TABLE_NAME = AmuletDBOpenHelper.TASKS_TABLE;
 	        break;
+	      case DIARY_SINGLE_ROW : 
+		        rowID = uri.getPathSegments().get(1);
+		        selection = KEY_ID + "=" + rowID
+		            + (!TextUtils.isEmpty(selection) ? 
+		              " AND (" + selection + ')' : "");
+		        TABLE_NAME = AmuletDBOpenHelper.DIARY_TABLE;
+		        break;
 	      default: break;
 	    }
 	    
@@ -151,6 +180,12 @@ public class AmuletContentProvider extends ContentProvider {
 	    	        nullColumnHack, values);
 	    	CONTENT_URI = CONTENT_URI_TASKS;
 	  	  break;
+	    case DIARY_SINGLE_ROW : 
+	    case DIARY_ALLROWS :
+	    	id = db.insert(AmuletDBOpenHelper.DIARY_TABLE, 
+	    	        nullColumnHack, values);
+	    	CONTENT_URI = CONTENT_URI_DIARY;
+	  	  break;
 	    default: break;
 	  }
 	    
@@ -181,6 +216,13 @@ public class AmuletContentProvider extends ContentProvider {
 	              " AND (" + selection + ')' : "");
 	        TABLE_NAME = AmuletDBOpenHelper.TASKS_TABLE;
 	        break;
+	      case DIARY_SINGLE_ROW : 
+		        rowID = uri.getPathSegments().get(1);
+		        selection = KEY_ID + "=" + rowID
+		            + (!TextUtils.isEmpty(selection) ? 
+		              " AND (" + selection + ')' : "");
+		        TABLE_NAME = AmuletDBOpenHelper.DIARY_TABLE;
+		        break;
 	      default: break;
 	    }
 	  
@@ -195,6 +237,8 @@ public class AmuletContentProvider extends ContentProvider {
 	    switch (uriMatcher.match(uri)) {
 	      case TASKS_ALLROWS: return "vnd.android.cursor.dir/vnd.procter.thomas.taskhistory";
 	      case TASKS_SINGLE_ROW: return "vnd.android.cursor.item/vnd.procter.thomas.taskhistory";
+	      case DIARY_ALLROWS: return "vnd.android.cursor.dir/vnd.procter.thomas.drinkDiary";
+	      case DIARY_SINGLE_ROW: return "vnd.android.cursor.item/vnd.procter.thomas.drinkDiary";
 	      
 	      default: throw new IllegalArgumentException("Unsupported URI: " + uri);
 	    }
@@ -208,6 +252,7 @@ public class AmuletContentProvider extends ContentProvider {
 	    
 	 // Table Names
 	    private static final String TASKS_TABLE = "TasksTable";
+	    private static final String DIARY_TABLE = "DiaryTable";
 	    
 	    // SQL Statement to create a new database.
 	    private static final String TASKS_CREATE = "create table " +
@@ -219,6 +264,14 @@ public class AmuletContentProvider extends ContentProvider {
 	      KEY_TASKS_UNITSCONSUMED_COLUMN + " text not null, " +
 	      KEY_TASKS_SYNCED_COLUMN + " boolean)";
 	    
+	    private static final String DIARY_CREATE = "create table " +
+	  	      DIARY_TABLE + " (" + KEY_ID +
+	  	      " integer primary key autoincrement, " +
+	  	      KEY_DIARY_DRINKTYPE_COLUMN + " text not null, " +
+	  	      KEY_DIARY_TIMESTAMP_COLUMN + " text not null, " +
+	  	      KEY_DIARY_UNITSCONSUMED_COLUMN + " text not null, " +
+	  	      KEY_DIARY_SYNCED_COLUMN + " boolean)";
+	    
 	    public AmuletDBOpenHelper(Context context, String name,
 	                      CursorFactory factory, int version) {
 	      super(context, name, factory, version);
@@ -229,6 +282,7 @@ public class AmuletContentProvider extends ContentProvider {
 	    @Override
 	    public void onCreate(SQLiteDatabase _db) {
 	    	_db.execSQL(TASKS_CREATE);
+	    	_db.execSQL(DIARY_CREATE);
 	    }
 
 	    // Called when there is a database version mismatch meaning that the version
@@ -246,6 +300,7 @@ public class AmuletContentProvider extends ContentProvider {
 
 	      // The simplest case is to drop the old table and create a new one.
 	      _db.execSQL("DROP TABLE IF IT EXISTS " + TASKS_TABLE);
+	      _db.execSQL("DROP TABLE IF IT EXISTS " + DIARY_TABLE);
 	      // Create a new one.
 	      onCreate(_db);
 	    }

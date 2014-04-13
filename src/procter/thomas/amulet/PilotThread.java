@@ -4,16 +4,16 @@ import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-class MainThread extends Thread {
+class PilotThread extends Thread {
 	
 	private SurfaceHolder surfaceHolder;
-	private DrawingPanel gamePanel;
+	private PilotSurfaceView surfaceView;
 	private boolean running;
 	
-	public MainThread(SurfaceHolder surfaceHolder, DrawingPanel gamePanel) {
+	public PilotThread(SurfaceHolder surfaceHolder, PilotSurfaceView surfaceView) {
 		super();
 		this.surfaceHolder = surfaceHolder;
-		this.gamePanel = gamePanel;
+		this.surfaceView = surfaceView;
 	}
 
 	// flag to hold game state
@@ -36,9 +36,9 @@ class MainThread extends Thread {
 						running = false;
 						Thread.sleep(20);
 					}
-					else if(gamePanel != null){
-						gamePanel.onUpdate(canvas);
-						gamePanel.onDraw(canvas);
+					else if(surfaceView != null){
+						surfaceView.onUpdate(canvas);
+						surfaceView.onDraw(canvas);
 					}
 				}
 			}

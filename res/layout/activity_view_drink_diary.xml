@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout
+        android:id="@+id/lnrDrinkDiaryTitles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
+
+    <TextView
+        android:id="@+id/lblDryLstTimeStamp"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="Time Stamp" />
+
+    <TextView
+        android:id="@+id/lblDryLstDrinkType"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="Drink Type" />
+
+    <TextView
+        android:id="@+id/lblDryLstUnitsConsumed"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="0.33"
+        android:text="Units" />
+
+</LinearLayout>
+
+    <ListView
+        android:id="@+id/lstDrinkDiary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lnrDrinkDiaryTitles" >
+
+    </ListView>
+
+</RelativeLayout>

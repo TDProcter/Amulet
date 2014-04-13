@@ -3,7 +3,7 @@ package procter.thomas.amulet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import procter.thomas.amulet.OnRetrieveHTTPData.OnRetrieveHttpData;
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreateAccountActivity extends Activity implements OnRetrieveHttpData{
+public class CreateAccountActivity extends Activity implements OnExchangeHttpData{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class CreateAccountActivity extends Activity implements OnRetrieveHttpDat
 			
 		
 		
-		RetrieveHTTPDataAsync retrieveData = new RetrieveHTTPDataAsync(this);
+		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this);
 		retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/register?" +
 				"firstname=" + firstname +
 				"&Surname=" + surname +
