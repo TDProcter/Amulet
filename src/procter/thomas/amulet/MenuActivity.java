@@ -1,22 +1,67 @@
 package procter.thomas.amulet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-public class MenuActivity extends Activity {
-
+public class MenuActivity extends Activity implements OnExchangeHttpData{
+	
+	private int syncCount;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		syncCount = 0;
+		String lastSync = SharedPreferencesWrapper.getFromPrefs(this,
+				"lastsync", "Default");
+		if(!(lastSync.equals("Default"))){
+			Time lastSyncTime = new Time();
+			Time syncTime = new Time();
+			syncTime.setToNow();
+			Log.i("parse", "parse");
+			Log.i("sync time", lastSync);
+			long millis = Long.parseLong(lastSync.trim());
+			Log.i("millis", millis + "");
+			lastSyncTime.set(millis);
+			Log.i("set time", "set");
+			Log.i("last load time day", lastSyncTime.yearDay+"");
+			Log.i("last load time", lastSyncTime.year+"");
+			Log.i("time day", syncTime.yearDay+"");
+			Log.i("time", syncTime.year+"");
+			if(lastSyncTime.year < syncTime.year){
+				fullSync();
+			}
+			else if(lastSyncTime.yearDay < syncTime.yearDay || (lastSyncTime.yearDay != 0 && syncTime.yearDay ==0)){
+				fullSync();
+			}
+			
+		}
+		else{
+			fullSync();
+		}
+		
+		
 	}
 
 	@Override
@@ -94,7 +139,7 @@ public class MenuActivity extends Activity {
 		String username = SharedPreferencesWrapper.getFromPrefs(this, "username", "Default Username");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Log Out");
-	    builder.setMessage("Are you sure you would like to Log Out, " + username + "?");
+	    builder.setMessage("Are you sure you would like to Log Out, " + username + "?\n\nAll unsynced data will be deleted!");
 	    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            //log out
@@ -148,6 +193,9 @@ private void calibrationConfirmation(final Intent intent){
 		if(!(SharedPreferencesWrapper.getFromPrefs(this, "InspectionBaseLine", "noBaseLine").equals("noBaseLine"))){
 			SharedPreferencesWrapper.removeFromPrefs(this, "InspectionBaseLine");
 		}
+		if(!(SharedPreferencesWrapper.getFromPrefs(this, "lastsync", "def").equals("def"))){
+			SharedPreferencesWrapper.removeFromPrefs(this, "lastsync");
+		}
 		SharedPreferencesWrapper.removeFromPrefs(this, "username");
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
 		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
@@ -157,6 +205,112 @@ private void calibrationConfirmation(final Intent intent){
 		Log.i("deleted", deleted+"");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+	}
+	
+	private void fullSync() {
+		ContentResolver cr = getContentResolver();
+
+		StorageMethods storageMethods = new StorageMethods();
+
+		String username = SharedPreferencesWrapper.getFromPrefs(this,
+				"username", "Default");
+		String password = SharedPreferencesWrapper.getFromPrefs(this,
+				"password", "Default");
+
+		Cursor taskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
+		if (taskCursor.getCount() > 0) {
+
+			JSONObject taskObj = storageMethods
+					.packTaskCursor(this, taskCursor);
+			ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(
+					this, cr);
+			retrieveData.execute("POST&UPDATETASK",
+					"http://08309.net.dcs.hull.ac.uk/api/admin/task",
+					taskObj.toString());
+
+		}
+		else{
+			syncCount++;
+		}
+		taskCursor.close();
+
+		Cursor diaryCursor = StorageMethods.getUnsyncedDrinkDiary(cr);
+		if (diaryCursor.getCount() > 0) {
+			JSONObject diaryObj = storageMethods.packDiaryCursor(this,
+					diaryCursor);
+			ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(
+					this, cr);
+			retrieveData.execute("POST&UPDATEDIARY",
+					"http://08309.net.dcs.hull.ac.uk/api/admin/drink",
+					diaryObj.toString());
+		}
+		else{
+			syncCount++;
+		}
+		diaryCursor.close();
+
+		{
+			ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(
+					this, cr);
+			retrieveData.execute("GET&SAVETASK",
+					"http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory"
+							+ "?username=" + username + "&password=" + password
+							+ "&tasktype=all");
+			
+		}
+
+		{
+			ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(
+					this, cr);
+			retrieveData
+					.execute("GET&SAVEDIARY",
+							"http://08309.net.dcs.hull.ac.uk/api/admin/diary"
+									+ "?username=" + username + "&password="
+									+ password);
+		}
+		
+	}
+
+	
+	@Override
+	public void onTaskCompleted(String httpData) {
+		// TODO Auto-generated method stub
+		
+		if(httpData.contains("tasks received")){
+			syncCount++;
+		}
+		else if(httpData.contains("entries received")){
+			syncCount++;
+		}
+		else if(httpData != null){
+			
+				
+					if (httpData.contains("drinktype")) {
+						syncCount++;
+					}
+				
+				
+					if (httpData.contains("tasktype")) {
+						syncCount++;
+						
+				}
+			
+		}
+		
+		if(syncCount > 3){
+			Time time = new Time();
+			time.setToNow();
+			SharedPreferencesWrapper.saveToPrefs(this, "lastsync",
+					time.toMillis(false) + "");
+			Log.i("saved time", time.toMillis(false) + "");
+			
+			String text = "All Data Synced with Server";
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(this, text, duration);
+			toast.show();
+		}
+			
+		
 	}
 }
 

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnExchangeHttpData{
 	
-	private boolean debugMode = true;
+	private final boolean debugMode = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

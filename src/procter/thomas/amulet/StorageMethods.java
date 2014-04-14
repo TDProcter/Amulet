@@ -214,6 +214,7 @@ public class StorageMethods {
 	public boolean syncTasksFromServer(ContentResolver cr, String httpData){
 		
 		Log.i("synctask", "try:");
+		if(httpData.contains("taskvalue")){
 		try {
 			
 				JSONArray jsonArray = new JSONArray(httpData);
@@ -244,7 +245,7 @@ public class StorageMethods {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		}
 		
 		return false;
 	}
@@ -478,6 +479,7 @@ public JSONObject packDiaryCursor(Context context, Cursor diaryCursor){
 public boolean syncDiaryFromServer(ContentResolver cr, String httpData){
 	
 	Log.i("syncDiary", "try:");
+	if(httpData.contains("drinktype")){
 	try {
 		
 			JSONArray jsonArray = new JSONArray(httpData);
@@ -508,7 +510,7 @@ public boolean syncDiaryFromServer(ContentResolver cr, String httpData){
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	
+	}
 	
 	return false;
 }

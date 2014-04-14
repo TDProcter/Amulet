@@ -113,12 +113,13 @@ public class ExchangeHTTPDataAsync extends AsyncTask<String, Void,  String>
 		}
 	}
 	
-public void updateDiaryTable(String responseData, String httpData){
+public boolean updateDiaryTable(String responseData, String httpData){
 		
 		if(responseData.contains("entries received")){
 		StorageMethods meth = new StorageMethods();
-		meth.updateSyncedDiaryEntries(contentResolver, httpData);
+		return meth.updateSyncedDiaryEntries(contentResolver, httpData);
 		}
+		return false;
 	}
 	
 	@Override
@@ -136,6 +137,7 @@ public void updateDiaryTable(String responseData, String httpData){
 				responseData = getHTTPData(dataStrings[1]);
 				StorageMethods meth = new StorageMethods();
 				meth.syncDiaryFromServer(contentResolver, responseData);
+				
 			}
 			else if(dataStrings[0].toString().equals("GET")){
 				responseData = getHTTPData(dataStrings[1]);
@@ -147,6 +149,7 @@ public void updateDiaryTable(String responseData, String httpData){
 			else if(dataStrings[0].toString().equals("POST&UPDATEDIARY") && dataStrings.length > 2){
 				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
 				updateDiaryTable(responseData, dataStrings[2]);
+				
 			}
 			else if(dataStrings[0].toString().equals("POST") && dataStrings.length > 2){
 				responseData = postHTTPData(dataStrings[1], dataStrings[2]);
