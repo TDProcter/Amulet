@@ -1,25 +1,21 @@
 package procter.thomas.amulet;
 
-import org.json.JSONObject;
-
-import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class ViewTaskHistoryActivity extends Activity implements OnExchangeHttpData{
+public class ViewTaskHistoryActivity extends Activity{
 
 	private Cursor taskHistoryCursor;
 	SimpleCursorAdapter dataAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_task_history);
-		sync();
 		setupList();
 	}
 	
@@ -73,39 +69,4 @@ public class ViewTaskHistoryActivity extends Activity implements OnExchangeHttpD
 			}  
 		}
 	
-	private void sync() {
-		ContentResolver cr = getContentResolver();
-		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this, cr);
-		String username = SharedPreferencesWrapper.getFromPrefs(this,
-				"username", "Default");
-		String password = SharedPreferencesWrapper.getFromPrefs(this,
-				"password", "Default");
-
-		retrieveData.execute("GET&SAVETASK",
-				"http://08309.net.dcs.hull.ac.uk/api/admin/taskhistory"
-						+ "?username=" + username + "&password=" + password
-						+ "&tasktype=all");
-
-	}
-	
-	@Override
-	public void onTaskCompleted(String httpData) {
-		ContentResolver cr = getContentResolver();
-		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this, cr);
-		StorageMethods meth = new StorageMethods();
-
-		Cursor unsyncedTaskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
-		Log.i("unsyncedcount", unsyncedTaskCursor.getCount() + "");
-		if (unsyncedTaskCursor.getCount() > 0) {
-			JSONObject jsonObject = meth.packTaskCursor(this,
-					unsyncedTaskCursor);
-			String HTTPString = jsonObject.toString();
-			retrieveData.execute("POST&UPDATETASK",
-					"http://08309.net.dcs.hull.ac.uk/api/admin/task",
-					HTTPString);
-			
-		}
-		unsyncedTaskCursor.close();
-		
-	}
 }

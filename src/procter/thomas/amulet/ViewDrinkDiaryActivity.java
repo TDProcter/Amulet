@@ -1,6 +1,5 @@
 package procter.thomas.amulet;
 
-import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -8,8 +7,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class ViewDrinkDiaryActivity extends Activity implements
-		OnExchangeHttpData {
+public class ViewDrinkDiaryActivity extends Activity {
 
 	private Cursor drinkDiaryCursor;
 	SimpleCursorAdapter dataAdapter;
@@ -18,10 +16,9 @@ public class ViewDrinkDiaryActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_drink_diary);
-		sync();
 		setupList();
 	}
-
+	
 	@Override
 	protected void onStop() {
 
@@ -59,28 +56,6 @@ public class ViewDrinkDiaryActivity extends Activity implements
 			listView.setAdapter(dataAdapter);
 
 		}
-	}
-
-	private void sync() {
-
-		ContentResolver cr = getContentResolver();
-		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this, cr);
-		String username = SharedPreferencesWrapper.getFromPrefs(this,
-				"username", "Default");
-		String password = SharedPreferencesWrapper.getFromPrefs(this,
-				"password", "Default");
-
-		retrieveData.execute("GET&SAVEDIARY",
-				"http://08309.net.dcs.hull.ac.uk/api/admin/diary"
-						+ "?username=" + username 
-						+ "&password=" + password);
-
-		
-	}
-
-	@Override
-	public void onTaskCompleted(String httpData) {
-
 	}
 
 }

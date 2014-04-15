@@ -39,20 +39,24 @@ public class CreateAccountActivity extends Activity implements OnExchangeHttpDat
 		String username  = usernameTextView.getText().toString();
 		String password = passwordTextView.getText().toString();
 		String confirmPassword = confirmPasswordTextView.getText().toString();
-		if(password.equals(confirmPassword))
-		{
-			
-		
-		
-		ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(this);
-		retrieveData.execute("GET", "http://08309.net.dcs.hull.ac.uk/api/admin/register?" +
-				"firstname=" + firstname +
-				"&Surname=" + surname +
-				"&username=" + username +
-				"&password=" + password);
-		}
-		else{
-			String text = "Error: Passwords do not match";
+		if (username.contains("@") && username.contains(".")) {
+			if (password.equals(confirmPassword)) {
+
+				ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(
+						this);
+				retrieveData.execute("GET",
+						"http://08309.net.dcs.hull.ac.uk/api/admin/register?"
+								+ "firstname=" + firstname + "&Surname="
+								+ surname + "&username=" + username
+								+ "&password=" + password);
+			} else {
+				String text = "Error: Passwords do not match";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(this, text, duration);
+				toast.show();
+			}
+		} else {
+			String text = "Error: Email address is incorrectly formatted";
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(this, text, duration);
 			toast.show();
