@@ -38,6 +38,11 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 		startActivity(intent);
 	}
 	
+	public void drinkDiary(View view){
+		Intent intent = new Intent(this, ViewDrinkDiaryActivity.class);
+		startActivity(intent);
+	}
+	
 	public void changePasswordComplete(View view){
 		TextView txtNewPassword = (TextView) findViewById(R.id.txtMngNewPassword);
 		TextView txtConfirmPassword = (TextView) findViewById(R.id.txtMngConfirmPassword);

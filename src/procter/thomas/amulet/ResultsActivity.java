@@ -45,13 +45,24 @@ public class ResultsActivity extends Activity implements OnExchangeHttpData{
 		Intent intent = getIntent();
 		score = intent.getIntExtra("score", -1);
 		task = intent.getStringExtra("task");
+		String scoreUnit = intent.getStringExtra("unit");
+		
 		if(intent.getStringExtra("mode").equals("calibration")){
+			TextView baseTextView = (TextView) findViewById(R.id.lblResultsBaseLine);
+			baseTextView.setText("Calibrated to: ");
 			calibrate();
 		}
+		else{
+			String baseLine = SharedPreferencesWrapper.getFromPrefs(this, task+"BaseLine", "Default");
+			TextView baseTextView = (TextView) findViewById(R.id.lblResultsBaseLine);
+			baseTextView.setText("BaseLine: " + baseLine + scoreUnit);
+		}
 		
-			String scoreUnit = intent.getStringExtra("unit");
-			TextView textView = (TextView) findViewById(R.id.txtResultsScore);
-			textView.setText("Score: " + score + scoreUnit);
+		
+				
+			
+		TextView textView = (TextView) findViewById(R.id.lblResultsScore);
+		textView.setText("Score: " + score + scoreUnit);
 		
 		setupDrinkList();
 	}
@@ -64,7 +75,7 @@ public class ResultsActivity extends Activity implements OnExchangeHttpData{
 		startMenu();
 	}
 	
-	public void menuButton(View v){
+	public void postButton(View v){
 		if (!calibrate) {
 			TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
 			String unitsConsumed = unitsTextView.getText().toString();
@@ -85,8 +96,8 @@ public class ResultsActivity extends Activity implements OnExchangeHttpData{
 		calibrate = true;
 		final EditText txtUnits = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
 		final Button btnCalc = (Button) findViewById(R.id.btnResultsUnitCalc);
-		txtUnits.setVisibility(View.INVISIBLE);
-		btnCalc.setVisibility(View.INVISIBLE);
+		txtUnits.setVisibility(View.GONE);
+		btnCalc.setVisibility(View.GONE);
 		
 	}
 private void calibrationConfirmation(){
@@ -138,10 +149,24 @@ private void setupDrinkList(){
 	
 	genericDrinks = new ArrayList<String>();
 	genericDrinksAbv = new ArrayList<double[]>();
-	genericDrinks.add("Stella");
-	genericDrinksAbv.add(new double[] {5.2});
-	genericDrinks.add("Guiness");
-	genericDrinksAbv.add(new double[] {4.1});
+	genericDrinks.add("Beer");
+	genericDrinksAbv.add(new double[] {4.2});
+	genericDrinks.add("Lager");
+	genericDrinksAbv.add(new double[] {4.0});
+	genericDrinks.add("Strong Beer");
+	genericDrinksAbv.add(new double[] {5.0});
+	genericDrinks.add("Cider");
+	genericDrinksAbv.add(new double[] {4.7});
+	genericDrinks.add("Wine");
+	genericDrinksAbv.add(new double[] {12.0});
+	genericDrinks.add("Champagne");
+	genericDrinksAbv.add(new double[] {11.0});
+	genericDrinks.add("Dark Spirit");
+	genericDrinksAbv.add(new double[] {40.0});
+	genericDrinks.add("Light Spirit");
+	genericDrinksAbv.add(new double[] {35.0});
+	genericDrinks.add("Alchopop");
+	genericDrinksAbv.add(new double[] {4.0});
 	
 	genericSizes = new ArrayList<String>();
 	genericSizesMl = new ArrayList<int[]>();
@@ -149,6 +174,18 @@ private void setupDrinkList(){
 	genericSizesMl.add(new int[] {568});
 	genericSizes.add("Half Pint");
 	genericSizesMl.add(new int[] {284});
+	genericSizes.add("Small Bottle");
+	genericSizesMl.add(new int[] {330});
+	genericSizes.add("Wine Glass");
+	genericSizesMl.add(new int[] {175});
+	genericSizes.add("Champagne Glass");
+	genericSizesMl.add(new int[] {125});
+	genericSizes.add("Shot");
+	genericSizesMl.add(new int[] {25});
+	genericSizes.add("Double Shot");
+	genericSizesMl.add(new int[] {50});
+	genericSizes.add("Alchopop Bottle");
+	genericSizesMl.add(new int[] {275});
 }
 
 private void addDrink(final double currentUnits){

@@ -21,7 +21,6 @@ public class ViewTaskHistoryActivity extends Activity{
 	
 	@Override
 	protected void onStop(){
-		
 		super.onStop();
 		taskHistoryCursor.close();
 	}

@@ -39,7 +39,7 @@ public class CreateAccountActivity extends Activity implements OnExchangeHttpDat
 		String username  = usernameTextView.getText().toString();
 		String password = passwordTextView.getText().toString();
 		String confirmPassword = confirmPasswordTextView.getText().toString();
-		if (username.contains("@") && username.contains(".")) {
+		if (username.contains("@") && username.contains(".") && !(username.contains(" "))) {
 			if (password.equals(confirmPassword)) {
 
 				ExchangeHTTPDataAsync retrieveData = new ExchangeHTTPDataAsync(

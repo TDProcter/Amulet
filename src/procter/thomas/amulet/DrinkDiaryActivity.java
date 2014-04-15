@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -113,20 +112,44 @@ public class DrinkDiaryActivity extends Activity implements OnExchangeHttpData{
 		genericDrinks = new ArrayList<String>();
 		genericDrinksAbv = new ArrayList<double[]>();
 		
-		genericDrinks.add("Stella");
-		genericDrinksAbv.add(new double[] {5.2});
-		
-		genericDrinks.add("Guiness");
-		genericDrinksAbv.add(new double[] {4.1});
+		genericDrinks.add("Beer");
+		genericDrinksAbv.add(new double[] {4.2});
+		genericDrinks.add("Lager");
+		genericDrinksAbv.add(new double[] {4.0});
+		genericDrinks.add("Strong Beer");
+		genericDrinksAbv.add(new double[] {5.0});
+		genericDrinks.add("Cider");
+		genericDrinksAbv.add(new double[] {4.7});
+		genericDrinks.add("Wine");
+		genericDrinksAbv.add(new double[] {12.0});
+		genericDrinks.add("Champagne");
+		genericDrinksAbv.add(new double[] {11.0});
+		genericDrinks.add("Dark Spirit");
+		genericDrinksAbv.add(new double[] {40.0});
+		genericDrinks.add("Light Spirit");
+		genericDrinksAbv.add(new double[] {35.0});
+		genericDrinks.add("Alchopop");
+		genericDrinksAbv.add(new double[] {4.0});
 		
 		genericSizes = new ArrayList<String>();
 		genericSizesMl = new ArrayList<int[]>();
 		
 		genericSizes.add("Pint");
 		genericSizesMl.add(new int[] {568});
-		
 		genericSizes.add("Half Pint");
 		genericSizesMl.add(new int[] {284});
+		genericSizes.add("Small Bottle");
+		genericSizesMl.add(new int[] {330});
+		genericSizes.add("Wine Glass");
+		genericSizesMl.add(new int[] {175});
+		genericSizes.add("Champagne Glass");
+		genericSizesMl.add(new int[] {125});
+		genericSizes.add("Shot");
+		genericSizesMl.add(new int[] {25});
+		genericSizes.add("Double Shot");
+		genericSizesMl.add(new int[] {50});
+		genericSizes.add("Alchopop Bottle");
+		genericSizesMl.add(new int[] {275});
 	}
 	
 	private void addDrink(){
@@ -185,7 +208,7 @@ public class DrinkDiaryActivity extends Activity implements OnExchangeHttpData{
 		     });
 		    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) { 
-		        	temp();
+		        	
 		        	
 		        }
 		     });
@@ -194,10 +217,7 @@ public class DrinkDiaryActivity extends Activity implements OnExchangeHttpData{
 	     
 		}
 	
-	private void temp(){
-		Intent intent = new Intent(this, ViewDrinkDiaryActivity.class);
-		startActivity(intent);
-	}
+	
 	public void addButton(View view){
 		addDrink();
 		
