@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,8 @@ public class SequenceActivity extends Activity{
 		private int arrayPos;
 		private String[] numbers = {"1", "2", "3","4","5","6","7","8","9", "10", "11", "12","13","14","15","16"};
 		private Time startTime;
+		private long timePaused = 0;
+		private Time pauseTime;
 		ArrayAdapter<String> adapter;
 		
 	@Override
@@ -27,10 +30,27 @@ public class SequenceActivity extends Activity{
 		getActionBar().hide();
 		setContentView(R.layout.placeholder);
 		arrayPos = 0;
-	    
+		pauseTime = new Time();
+        pauseTime.setToNow();
 		
 	}
 	
+	@Override 
+	protected void onPause(){
+		super.onPause();
+		Log.i("paused", "paused");
+		pauseTime.setToNow();
+		Log.i("onpause", timePaused+"");
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		Time resumeTime = new Time();
+		resumeTime.setToNow();
+		timePaused = timePaused + resumeTime.toMillis(false) - pauseTime.toMillis(false);
+		Log.i("resume pause", timePaused+"");
+	}
 	
 	
 	
@@ -66,22 +86,22 @@ public class SequenceActivity extends Activity{
 					Time currentTime = new Time();
 					currentTime.setToNow();
 
-					float newTime = (currentTime.toMillis(false) - startTime
-							.toMillis(false)) / 1000;
+					long newTime = (currentTime.toMillis(false) - startTime
+							.toMillis(false));
 
-					endClause((int) newTime);
+					endClause(newTime);
 				}
 
 			}
 		});
 	}
 
-	private void endClause(int endTime){
+	private void endClause(long endTime){
 		//intent results
-		
+		int finalTime = (int) ((endTime - timePaused)/1000);
 		Intent intent = new Intent(this, ResultsActivity.class);
 		intent.putExtra("mode",getIntent().getStringExtra("mode"));
-		intent.putExtra("score", endTime);
+		intent.putExtra("score", finalTime);
 		intent.putExtra("task", "Sequence");
 		intent.putExtra("unit", "s");
 		startActivity(intent);

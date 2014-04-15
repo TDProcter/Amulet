@@ -30,6 +30,10 @@ public class PilotShape {
 		return this.direction;
 	}
 	
+	public Point getPosition(){
+		return this.centre;
+	}
+	
 	public void setPosition(int centreX, int centreY){
 		Rect newPos = calculateRect(centreX, centreY, this.width, this.height);
 		this.position.left =newPos.left;

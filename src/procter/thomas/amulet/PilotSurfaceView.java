@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.format.Time;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,22 +16,26 @@ import android.view.SurfaceView;
 public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
 
 	
-	private PilotThread thread;
+	public PilotThread thread;
 	private PilotShape pilotPlayer;
 	private PilotShape[] badGuys;
 	private final int noOfBadGuys = 6;
 	private boolean touchedSquare = false;
 	private Time startTime, endTime;
-	private boolean setObjects = true;
-	private int badGuySize = 500; //Perimeter divided by 2
+	private int badGuySize = 450; //Perimeter divided by 2
 	private int playerSize = 200; //Perimeter divided by 2
 	private boolean stopOnTouch = false;
+	private int screenWidth;
+	private int screenHeight;
+	private boolean declare;
+	
 	public PilotSurfaceView(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
+		declare = true;
 		// create the game loop thread
-		thread = new PilotThread(getHolder(), this);
+		thread = new PilotThread(getHolder(), this, declare);
 		
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
@@ -41,15 +45,20 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		startTime.setToNow();
 	}
 
+	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		
+		if (!thread.isAlive()) {
+            thread = new PilotThread(getHolder(), this, declare);
+        }
 		thread.setRunning(true);
 		thread.start();
-
+		declare = false;
 	}
 
 	@Override
@@ -65,11 +74,21 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		}
 	}
 	
-	private void setObjects(Canvas canvas) {
+	public void setObjects(Canvas canvas) {
+		PilotActivity activity = (PilotActivity) super.getContext();
+		DisplayMetrics metrics = new DisplayMetrics();
+		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		
+		screenHeight = canvas.getHeight();
+		screenWidth = canvas.getWidth();
+		
+		
+		playerSize = (playerSize*screenWidth) / 1200;
+		badGuySize = (badGuySize*screenWidth) / 1200;
 		Paint playerColour = new Paint();
 		playerColour.setColor(0xffffffff);
-		pilotPlayer = new PilotShape((canvas.getWidth() - playerSize),
-				(canvas.getHeight() - playerSize), playerSize, playerSize, playerColour, null);
+		pilotPlayer = new PilotShape((screenWidth - playerSize),
+				(screenHeight - playerSize), playerSize, playerSize, playerColour, null);
 		badGuys = new PilotShape[noOfBadGuys];
 		Paint enemyColour = new Paint();
 		enemyColour.setColor(0xffffff00);
@@ -84,7 +103,7 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 				dirX = (random.nextInt(3) - 1);
 				dirY = (random.nextInt(3) - 1);
 			} while (dirX == 0 || dirY == 0);
-			Log.i("dir", dirX + ",  " + dirY);
+			
 			do {
 				SecureRandom random = new SecureRandom();
 				height = 50* (random.nextInt(10) + 1);
@@ -94,7 +113,6 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 			badGuys[i] = new PilotShape((badGuySize)+1, (badGuySize)+1, width, height,
 					enemyColour, new Point(dirX*speed, dirY*speed));
 
-			this.setObjects = false;
 		}
 	}
 
@@ -114,7 +132,17 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		else if(event.getAction() == MotionEvent.ACTION_MOVE)
 		{
 			if(touchedSquare){
+				Point p = pilotPlayer.getPosition();
 				pilotPlayer.setPosition((int)event.getX(), (int)event.getY());
+				if (pilotPlayer.getRect().left < 0
+						|| pilotPlayer.getRect().right > screenWidth) {
+					pilotPlayer.setPosition(p.x, pilotPlayer.getPosition().y);
+				}
+				if (pilotPlayer.getRect().top < 0
+						|| pilotPlayer.getRect().bottom > screenHeight) {
+					pilotPlayer.setPosition(pilotPlayer.getPosition().x, p.y);
+				}
+				
 			}
 		}
 		}
@@ -135,10 +163,6 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 	
 	
 	public void onUpdate(Canvas canvas) {
-		
-			if (setObjects) {
-				setObjects(canvas);
-			}
 
 			for (int i = 0; i < badGuys.length; i++) {
 				Point dir = badGuys[i].getDirection();
@@ -157,18 +181,18 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 				Rect badGuyRect = badGuys[i].getRect();
 				if (Rect.intersects(goodGuyRect, badGuyRect)) {
 					pilotPlayer.colour.setColor(0xffff0000);
-					finish();
+					endCondition();
 				}
 			}
 		
 	}
 	
-	private void finish(){
+	private void endCondition(){
 		stopOnTouch = true;
 		endTime.setToNow();
-		int newTime = (int)(endTime.toMillis(false) - startTime.toMillis(false))/1000;
+		long newTime = (endTime.toMillis(false) - startTime.toMillis(false));
 		PilotActivity activity = (PilotActivity) super.getContext();//context;
-		activity.finish(newTime);
+		activity.endCondition(newTime);
 		//
 	}
 	

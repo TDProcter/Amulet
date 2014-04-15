@@ -1,7 +1,5 @@
 package procter.thomas.amulet;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import procter.thomas.amulet.OnExchangeHTTPData.OnExchangeHttpData;
