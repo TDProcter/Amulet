@@ -22,7 +22,7 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 	private final int noOfBadGuys = 6;
 	private boolean touchedSquare = false;
 	private Time startTime, endTime;
-	private int badGuySize = 450; //Perimeter divided by 2
+	private int badGuySize = 500; //Perimeter divided by 2
 	private int playerSize = 200; //Perimeter divided by 2
 	private boolean stopOnTouch = false;
 	private int screenWidth;
@@ -166,15 +166,18 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
 			for (int i = 0; i < badGuys.length; i++) {
 				Point dir = badGuys[i].getDirection();
+				Point lastPos = badGuys[i].getPosition();
 				badGuys[i].setPosition(badGuys[i].centre.x + dir.x,
 						badGuys[i].centre.y + dir.y);
 
 				if (badGuys[i].getRect().left < 0
 						|| badGuys[i].getRect().right > canvas.getWidth()) {
+					badGuys[i].setPosition(lastPos.x, lastPos.y);
 					badGuys[i].setDirection(new Point(-dir.x, dir.y));
 				}
 				if (badGuys[i].getRect().top < 0
 						|| badGuys[i].getRect().bottom > canvas.getHeight()) {
+					badGuys[i].setPosition(lastPos.x, lastPos.y);
 					badGuys[i].setDirection(new Point(dir.x, -dir.y));
 				}
 				Rect goodGuyRect = pilotPlayer.getRect();
