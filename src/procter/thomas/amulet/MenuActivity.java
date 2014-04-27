@@ -181,7 +181,7 @@ private void calibrationConfirmation(final Intent intent){
 		
 	}
 	
-	private void logOut(){
+	public void logOut(){
 		if(!(SharedPreferencesWrapper.getFromPrefs(this, "SequenceBaseLine", "noBaseLine").equals("noBaseLine"))){
 			SharedPreferencesWrapper.removeFromPrefs(this, "SequenceBaseLine");
 		}
