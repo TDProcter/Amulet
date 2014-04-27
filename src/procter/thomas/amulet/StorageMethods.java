@@ -108,6 +108,38 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
+	public static Cursor getBaseLineFromTaskHistory(ContentResolver cr, String taskType) {
+
+		// Specify the result column projection. Return the minimum set
+		// of columns required to satisfy your requirements.
+		String[] result_columns = new String[] { 
+				AmuletContentProvider.KEY_ID,
+				AmuletContentProvider.KEY_TASKS_TASKTYPE_COLUMN, 
+				AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN, 
+				AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN, 
+				AmuletContentProvider.KEY_TASKS_UNITSCONSUMED_COLUMN, 
+				AmuletContentProvider.KEY_TASKS_SYNCED_COLUMN };
+		
+		
+
+		// Append a row ID to the URI to address a specific row.
+		Uri rowAddress = AmuletContentProvider.CONTENT_URI_TASKS;
+
+		// Specify the where clause that will limit your results.
+		String where = AmuletContentProvider.KEY_TASKS_TASKTYPE_COLUMN
+				+ "=? AND " 
+				+  AmuletContentProvider.KEY_TASKS_UNITSCONSUMED_COLUMN 
+				+ "=?";
+		
+		String whereArgs[] = {taskType, "0.0"};
+		String order = null;
+
+		Cursor resultCursor = cr.query(rowAddress, result_columns, where,
+				whereArgs, order);
+
+		return resultCursor;
+	}
+	
 	public static Cursor getUnsyncedTaskHistory(ContentResolver cr) {
 
 		// Specify the result column projection. Return the minimum set

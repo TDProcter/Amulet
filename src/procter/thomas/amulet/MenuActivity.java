@@ -269,7 +269,60 @@ private void calibrationConfirmation(final Intent intent){
 		
 	}
 
-	
+	private void syncBaseLine(){
+		
+		ContentResolver cr = getContentResolver();
+		
+		
+		if (SharedPreferencesWrapper.getFromPrefs(this, "SequenceBaseLine",
+				"noBaseLine").equals("noBaseLine")) {
+			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+					"Sequence");
+			Log.i("Amulet", "seq "+ baseCursor.getCount());
+			if (baseCursor.getCount() > 0) { 
+				baseCursor.moveToLast();
+				String baseLine = baseCursor
+						.getString(baseCursor
+								.getColumnIndex(AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN));
+				SharedPreferencesWrapper.saveToPrefs(this, "SequenceBaseLine",
+						baseLine);
+
+			}
+			baseCursor.close();
+		}
+		if (SharedPreferencesWrapper.getFromPrefs(this, "PilotBaseLine",
+				"noBaseLine").equals("noBaseLine")) {
+			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+					"Pilot");
+			Log.i("Amulet", "pil "+ baseCursor.getCount());
+			if (baseCursor.getCount() > 0) {
+
+				baseCursor.moveToLast();
+				String baseLine = baseCursor
+						.getString(baseCursor
+								.getColumnIndex(AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN));
+				SharedPreferencesWrapper.saveToPrefs(this, "PilotBaseLine",
+						baseLine);
+			}
+			baseCursor.close();
+		}
+		if (SharedPreferencesWrapper.getFromPrefs(this, "InspectionBaseLine",
+				"noBaseLine").equals("noBaseLine")) {
+			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+					"Inspection");
+			Log.i("Amulet", "ins "+ baseCursor.getCount());
+			if (baseCursor.getCount() > 0) {
+
+				baseCursor.moveToLast();
+				String baseLine = baseCursor
+						.getString(baseCursor
+								.getColumnIndex(AmuletContentProvider.KEY_TASKS_TASKVALUE_COLUMN));
+				SharedPreferencesWrapper.saveToPrefs(this,
+						"InspectionBaseLine", baseLine);
+			}
+			baseCursor.close();
+		}
+	}
 	@Override
 	public void onTaskCompleted(String httpData) {
 		// TODO Auto-generated method stub
@@ -290,7 +343,8 @@ private void calibrationConfirmation(final Intent intent){
 				
 					if (httpData.contains("tasktype")) {
 						syncCount++;
-						
+						Log.i("Amulet", "baseline sync");
+						syncBaseLine();
 				}
 			
 		}
@@ -306,6 +360,7 @@ private void calibrationConfirmation(final Intent intent){
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(this, text, duration);
 			toast.show();
+			
 		}
 			
 		
