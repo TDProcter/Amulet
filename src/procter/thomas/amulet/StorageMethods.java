@@ -20,7 +20,7 @@ public class StorageMethods {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	public static Uri addNewTask(ContentResolver cr, String taskType,
+	public Uri addNewTask(ContentResolver cr, String taskType,
 			String timeStamp, String taskValue,
 			String unitsConsumed, boolean synced) {
 		
@@ -44,14 +44,14 @@ public class StorageMethods {
 		return myRowUri;
 	}
 	
-	public static int deleteTask(ContentResolver cr, long rowId){
+	public int deleteTask(ContentResolver cr, long rowId){
 		Uri rowAddress = ContentUris.withAppendedId(
 				AmuletContentProvider.CONTENT_URI_TASKS, rowId);
 		int numberDeleted = cr.delete(rowAddress, null, null);
 		return numberDeleted;
 	}
 	
-	public static Cursor getTaskHistoryByTimeStamp(ContentResolver cr, String timeStamp) {
+	public Cursor getTaskHistoryByTimeStamp(ContentResolver cr, String timeStamp) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -80,7 +80,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getTaskHistoryComplete(ContentResolver cr, String orderBy) {
+	public Cursor getTaskHistoryComplete(ContentResolver cr, String orderBy) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -108,7 +108,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getBaseLineFromTaskHistory(ContentResolver cr, String taskType) {
+	public Cursor getBaseLineFromTaskHistory(ContentResolver cr, String taskType) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -140,7 +140,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getUnsyncedTaskHistory(ContentResolver cr) {
+	public Cursor getUnsyncedTaskHistory(ContentResolver cr) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -169,7 +169,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static void updateTask(ContentResolver cr, long rowId, String taskType,
+	public void updateTask(ContentResolver cr, long rowId, String taskType,
 			String timeStamp, String taskValue,
 			String unitsConsumed, boolean synced) {
 		
@@ -327,7 +327,7 @@ public class StorageMethods {
 	///////////////////////////////// DRINK DIARY METHODS//////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static Uri addNewDiaryEntry(ContentResolver cr, String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
+	public Uri addNewDiaryEntry(ContentResolver cr, String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
 		
 		// Create a new row of values to insert.
 		ContentValues newValues = new ContentValues();
@@ -349,14 +349,14 @@ public class StorageMethods {
 		return myRowUri;
 	}
 	
-	public static int deleteDiaryEntry(ContentResolver cr, long rowId){
+	public int deleteDiaryEntry(ContentResolver cr, long rowId){
 		Uri rowAddress = ContentUris.withAppendedId(
 				AmuletContentProvider.CONTENT_URI_DIARY, rowId);
 		int numberDeleted = cr.delete(rowAddress, null, null);
 		return numberDeleted;
 	}
 	
-	public static Cursor getDiaryEntryByTimeStamp(ContentResolver cr, String timeStamp) {
+	public Cursor getDiaryEntryByTimeStamp(ContentResolver cr, String timeStamp) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -384,7 +384,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getDrinkDiaryComplete(ContentResolver cr, String orderBy) {
+	public Cursor getDrinkDiaryComplete(ContentResolver cr, String orderBy) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -411,7 +411,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static Cursor getUnsyncedDrinkDiary(ContentResolver cr) {
+	public Cursor getUnsyncedDrinkDiary(ContentResolver cr) {
 
 		// Specify the result column projection. Return the minimum set
 		// of columns required to satisfy your requirements.
@@ -439,7 +439,7 @@ public class StorageMethods {
 		return resultCursor;
 	}
 	
-	public static void updateDrinkDiaryEntry(ContentResolver cr, long rowId,  String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
+	public void updateDrinkDiaryEntry(ContentResolver cr, long rowId,  String timeStamp, String drinkType, String unitsConsumed, boolean synced) {
 		
 		// Create a new row of values to insert.
 		ContentValues newValues = new ContentValues();
@@ -577,14 +577,13 @@ public boolean syncDiaryFromServer(ContentResolver cr, String httpData){
 
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return false;
 	}
 	
-	public static int deleteAll(ContentResolver cr){
+	public int deleteAll(ContentResolver cr){
 		int numberDeleted = cr.delete(AmuletContentProvider.CONTENT_URI_TASKS, null, null)
 				+  cr.delete(AmuletContentProvider.CONTENT_URI_DIARY, null, null);
 		

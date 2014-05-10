@@ -28,7 +28,8 @@ public class ViewTaskHistoryActivity extends Activity{
 	private void setupList() {
 
 		ContentResolver cr = getContentResolver();
-		taskHistoryCursor = StorageMethods.getTaskHistoryComplete(cr, AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN);
+		StorageMethods storageMethods = new StorageMethods();
+		taskHistoryCursor = storageMethods.getTaskHistoryComplete(cr, AmuletContentProvider.KEY_TASKS_TIMESTAMP_COLUMN);
 		
 		if(taskHistoryCursor.getCount()>0){
 			

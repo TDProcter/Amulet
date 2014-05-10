@@ -1,92 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relResultsOuter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2BDFFF" >
+    android:background="#2BDFFF"
+    android:layout_centerHorizontal="true"
+    >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
-
-        <ImageView
-        android:id="@+id/imgResultsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/results_image" />
-        
-        <TextView
-            android:id="@+id/lblResultsBaseLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgResultsTitle"
+        <RelativeLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:background="#2BDFFF"
             android:layout_centerHorizontal="true"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/white" />
+            android:layout_centerVertical="true" >
 
-        <TextView
-            android:id="@+id/lblResultsScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblResultsBaseLine"
-            android:layout_centerHorizontal="true"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
-            android:id="@+id/lnlResultsForm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblResultsScore"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical" >
-
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/imgResultsTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/results_image" />
 
-                <EditText
-                    android:id="@+id/txtResultsUnitsConsumed"
+            <TextView
+                android:id="@+id/lblResultsBaseLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgResultsTitle"
+                android:layout_centerHorizontal="true"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/lblResultsScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblResultsBaseLine"
+                android:layout_centerHorizontal="true"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:id="@+id/lnlResultsForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblResultsScore"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical" >
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textColor="@android:color/white" >
+                    android:layout_height="wrap_content" >
 
-                    <requestFocus />
-                </EditText>
+                    <EditText
+                        android:id="@+id/txtResultsUnitsConsumed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:textColor="@android:color/white" />
 
-                <Button
-                    android:id="@+id/btnResultsUnitCalc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtResultsUnitsConsumed"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="unitCalcButton"
-                    android:text="Unit Calculator"
-                    android:textColor="@android:color/white" />
+                    <Button
+                        android:id="@+id/btnResultsUnitCalc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtResultsUnitsConsumed"
+                        android:layout_centerHorizontal="true"
+                        android:onClick="unitCalcButton"
+                        android:text="Unit Calculator"
+                        android:textColor="@android:color/white" />
 
-                <Button
-                    android:id="@+id/btnResultsPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@+id/btnResultsUnitCalc"
-                    android:layout_below="@+id/btnResultsUnitCalc"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="postButton"
-                    android:text="Post to Server"
-                    android:textColor="@android:color/white" />
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-    
+                    <Button
+                        android:id="@+id/btnResultsPost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/btnResultsUnitCalc"
+                        android:layout_below="@+id/btnResultsUnitCalc"
+                        android:layout_centerHorizontal="true"
+                        android:onClick="postButton"
+                        android:text="Post to Server"
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
 </RelativeLayout>

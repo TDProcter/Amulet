@@ -76,7 +76,7 @@ public class InspectionActivity extends Activity{
 			};
 	
 	public void portraitLoad(){
-		setContentView(R.layout.activity_inspection_portrait);
+		setContentView(R.layout.activity_inspection);
 		
 		bottleButtons = new ImageButton[5];
 		bottleButtons[0] = (ImageButton) findViewById(R.id.btnBottleInspectionPortrait0);

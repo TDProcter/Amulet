@@ -29,7 +29,8 @@ public class ViewDrinkDiaryActivity extends Activity {
 	private void setupList() {
 
 		ContentResolver cr = getContentResolver();
-		drinkDiaryCursor = StorageMethods.getDrinkDiaryComplete(cr,
+		StorageMethods storageMethods = new StorageMethods();
+		drinkDiaryCursor = storageMethods.getDrinkDiaryComplete(cr,
 				AmuletContentProvider.KEY_DIARY_TIMESTAMP_COLUMN);
 		if (drinkDiaryCursor.getCount() > 0) {
 

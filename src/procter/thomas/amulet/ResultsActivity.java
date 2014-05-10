@@ -258,8 +258,8 @@ private void addDrink(final double currentUnits){
 		time.setToNow();
 		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
 		
-		StorageMethods.addNewTask(cr, task, timeStamp, score+"", unitsConsumed, false);
-		Cursor taskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
+		storageMethods.addNewTask(cr, task, timeStamp, score+"", unitsConsumed, false);
+		Cursor taskCursor = storageMethods.getUnsyncedTaskHistory(cr);
 		Log.i("count", taskCursor.getCount()+"");
 		
 		JSONObject obj = storageMethods.packTaskCursor(this, taskCursor);

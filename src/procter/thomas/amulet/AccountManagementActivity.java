@@ -44,6 +44,10 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 	        	mode = 2;
 	    		confirmDelete();
 	            return true;
+	        case R.id.action_main_menu:
+	        	Intent intent = new Intent(this, MenuActivity.class);
+	        	startActivity(intent);
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -59,7 +63,10 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 	
 	public void changePassword(View view){
 		mode = 1;
-		setContentView(R.layout.activity_change_password);
+		setContentView(R.layout.change_password);
+	}
+	public void changePasswordCancel(View view){
+		setContentView(R.layout.activity_account_management);
 	}
 	public void taskHistory(View view){
 		Intent intent = new Intent(this, ViewTaskHistoryActivity.class);
@@ -209,8 +216,9 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 		SharedPreferencesWrapper.removeFromPrefs(this, "password");
 		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
 		
+		StorageMethods storageMethods = new StorageMethods();
 		ContentResolver cr = getContentResolver();
-		int deleted = StorageMethods.deleteAll(cr);
+		int deleted = storageMethods.deleteAll(cr);
 		Log.i("deleted", deleted+"");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);

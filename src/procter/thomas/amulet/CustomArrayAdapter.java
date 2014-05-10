@@ -2,7 +2,6 @@ package procter.thomas.amulet;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
@@ -28,7 +27,6 @@ ArrayList<String> objects;
 		
 	}
 	
-	@SuppressLint("NewApi")
 	@Override  
 	public View getView(int position, View view, ViewGroup viewGroup)
 	{

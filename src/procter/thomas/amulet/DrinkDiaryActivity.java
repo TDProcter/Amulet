@@ -245,9 +245,9 @@ public class DrinkDiaryActivity extends Activity implements OnExchangeHttpData{
 		String timeStamp = time.format("%Y-%m-%d %H:%M:%S");
 		
 		for(int i = 0; i < addedDrinks.size(); i++){
-		StorageMethods.addNewDiaryEntry(cr, timeStamp, addedDrinks.get(i), addedUnits.get(i), false);
+		storageMethods.addNewDiaryEntry(cr, timeStamp, addedDrinks.get(i), addedUnits.get(i), false);
 		}
-		Cursor diaryCursor = StorageMethods.getUnsyncedDrinkDiary(cr);
+		Cursor diaryCursor = storageMethods.getUnsyncedDrinkDiary(cr);
 		Log.i("count", diaryCursor.getCount()+"");
 		
 		JSONObject obj = storageMethods.packDiaryCursor(this, diaryCursor);

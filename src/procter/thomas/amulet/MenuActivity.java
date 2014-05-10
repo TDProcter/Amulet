@@ -199,7 +199,8 @@ private void calibrationConfirmation(final Intent intent){
 		SharedPreferencesWrapper.removeFromPrefs(this, "fullName");
 		
 		ContentResolver cr = getContentResolver();
-		int deleted = StorageMethods.deleteAll(cr);
+		StorageMethods storageMethods = new StorageMethods();
+		int deleted = storageMethods.deleteAll(cr);
 		Log.i("deleted", deleted+"");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
@@ -215,7 +216,7 @@ private void calibrationConfirmation(final Intent intent){
 		String password = SharedPreferencesWrapper.getFromPrefs(this,
 				"password", "Default");
 
-		Cursor taskCursor = StorageMethods.getUnsyncedTaskHistory(cr);
+		Cursor taskCursor = storageMethods.getUnsyncedTaskHistory(cr);
 		if (taskCursor.getCount() > 0) {
 
 			JSONObject taskObj = storageMethods
@@ -232,7 +233,7 @@ private void calibrationConfirmation(final Intent intent){
 		}
 		taskCursor.close();
 
-		Cursor diaryCursor = StorageMethods.getUnsyncedDrinkDiary(cr);
+		Cursor diaryCursor = storageMethods.getUnsyncedDrinkDiary(cr);
 		if (diaryCursor.getCount() > 0) {
 			JSONObject diaryObj = storageMethods.packDiaryCursor(this,
 					diaryCursor);
@@ -272,11 +273,11 @@ private void calibrationConfirmation(final Intent intent){
 	private void syncBaseLine(){
 		
 		ContentResolver cr = getContentResolver();
-		
+		StorageMethods storageMethods = new StorageMethods();
 		
 		if (SharedPreferencesWrapper.getFromPrefs(this, "SequenceBaseLine",
 				"noBaseLine").equals("noBaseLine")) {
-			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+			Cursor baseCursor = storageMethods.getBaseLineFromTaskHistory(cr,
 					"Sequence");
 			Log.i("Amulet", "seq "+ baseCursor.getCount());
 			if (baseCursor.getCount() > 0) { 
@@ -292,7 +293,7 @@ private void calibrationConfirmation(final Intent intent){
 		}
 		if (SharedPreferencesWrapper.getFromPrefs(this, "PilotBaseLine",
 				"noBaseLine").equals("noBaseLine")) {
-			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+			Cursor baseCursor = storageMethods.getBaseLineFromTaskHistory(cr,
 					"Pilot");
 			Log.i("Amulet", "pil "+ baseCursor.getCount());
 			if (baseCursor.getCount() > 0) {
@@ -308,7 +309,7 @@ private void calibrationConfirmation(final Intent intent){
 		}
 		if (SharedPreferencesWrapper.getFromPrefs(this, "InspectionBaseLine",
 				"noBaseLine").equals("noBaseLine")) {
-			Cursor baseCursor = StorageMethods.getBaseLineFromTaskHistory(cr,
+			Cursor baseCursor = storageMethods.getBaseLineFromTaskHistory(cr,
 					"Inspection");
 			Log.i("Amulet", "ins "+ baseCursor.getCount());
 			if (baseCursor.getCount() > 0) {
