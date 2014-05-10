@@ -122,18 +122,6 @@
                      android:textAppearance="?android:attr/textAppearanceMedium"
                      android:textColor="@android:color/white" />
              </RelativeLayout>
-
-             <Button
-                 android:id="@+id/btnAccDeleteAccount"
-                 style="?android:attr/buttonBarButtonStyle"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@+id/linearLayout1"
-                 android:layout_centerHorizontal="true"
-                 android:onClick="deleteAccount"
-                 android:shadowColor="#2BDFFF"
-                 android:text="Delete Account"
-                 android:textColor="@android:color/white" />
          </RelativeLayout>
      </ScrollView>
 

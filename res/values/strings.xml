@@ -4,5 +4,6 @@
     <string name="app_name">Amulet</string>
     <string name="action_account_management">My Account</string>
     <string name="action_logout">Log Out</string>
+    <string name="action_delete_account">Delete Account</string>
 
 </resources>

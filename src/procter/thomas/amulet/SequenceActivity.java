@@ -11,7 +11,6 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ public class SequenceActivity extends Activity{
 		private Time startTime;
 		private long timePaused = 0;
 		private Time pauseTime;
-		ArrayAdapter<String> adapter;
+		CustomArrayAdapter adapter;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +59,18 @@ public class SequenceActivity extends Activity{
 		startTime = new Time();
 		startTime.setToNow();
 
-		GridView gridview = (GridView) findViewById(R.id.gridview);
+		final GridView gridview = (GridView) findViewById(R.id.gridview);
 
 		ArrayList<String> arrayList = new ArrayList<String>(
 				Arrays.asList(numbers));
 		Collections.shuffle(arrayList);
 		
-		adapter = new ArrayAdapter<String>(this, R.layout.sequence_text_view,
+		
+		adapter = new CustomArrayAdapter(this, R.layout.sequence_text_view,
 				arrayList);
 		
+		//ImageAdapter imageAdapter = new ImageAdapter(this);
 		gridview.setAdapter(adapter);
-
 		
 		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,

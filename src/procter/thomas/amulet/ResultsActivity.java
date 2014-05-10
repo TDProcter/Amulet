@@ -269,7 +269,7 @@ private void addDrink(final double currentUnits){
 		retrieveData.execute("POST&UPDATETASK", "http://08309.net.dcs.hull.ac.uk/api/admin/task", HTTPString);
 		
 		taskCursor.close();
-		startMenu();
+		
 	}
 	
 	private void startMenu(){
@@ -281,7 +281,7 @@ private void addDrink(final double currentUnits){
 
 	@Override
 	public void onTaskCompleted(String httpData) {
-		
+		startMenu();
 		Log.i("http", httpData);
 		
 	}

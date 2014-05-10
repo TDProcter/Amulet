@@ -12,9 +12,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,26 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_account_management);
 		setAccountDetails();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.settings, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_delete_account:
+	        	mode = 2;
+	    		confirmDelete();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	private void setAccountDetails(){
@@ -48,11 +69,6 @@ public class AccountManagementActivity extends Activity implements OnExchangeHtt
 	public void drinkDiary(View view){
 		Intent intent = new Intent(this, ViewDrinkDiaryActivity.class);
 		startActivity(intent);
-	}
-	
-	public void deleteAccount(View view){
-		mode = 2;
-		confirmDelete();
 	}
 	
 	private void deleteAccountConfirmed(){
