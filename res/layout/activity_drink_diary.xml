@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/diary_image" />
+        android:src="@drawable/diary_title" />
 
     <ListView
         android:id="@+id/lstAddedDrinks"

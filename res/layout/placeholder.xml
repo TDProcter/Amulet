@@ -5,19 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:background="#2BDFFF">
-    
-    <Button
+
+    <ImageButton
         android:id="@+id/btnPlcStart"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="startButton"
-        android:text="Start"
-        android:padding="10dp"
-        android:textColor="@android:color/white"
-        style="?android:attr/buttonBarButtonStyle" />
-
-    
+        android:src="@drawable/start_button" />
 
 </RelativeLayout>

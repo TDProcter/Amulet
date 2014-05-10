@@ -35,25 +35,24 @@
 
         <ImageButton
             android:id="@+id/btnSequence"
-            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/btnInspectionMenu"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btnInspectionMenu"
             android:onClick="sequenceButton"
             android:padding="10dp"
             android:src="@drawable/sequence" />
 
         <ImageButton
             android:id="@+id/btnDrinkDiary"
-            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btnInspectionMenu"
-            android:layout_toRightOf="@+id/btnInspectionMenu"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btnPilotMenu"
             android:onClick="drinkDiaryButton"
             android:padding="10dp"
             android:src="@drawable/diary" />
+
     </RelativeLayout>
 
     <ImageView
@@ -61,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/relMenuLayout"
-        android:layout_alignLeft="@+id/relMenuLayout"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/title_image" />
 
 </RelativeLayout>

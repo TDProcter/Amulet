@@ -43,11 +43,12 @@ ArrayList<String> objects;
 	 
 	 if(width>height){
 		 
-		 ((TextView)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, width/20);
+		
+		 ((TextView)v).setTextSize(TypedValue.COMPLEX_UNIT_SP,height/20);
 	 }
 	 else{
+		 ((TextView)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, width/20);
 		 
-		 ((TextView)v).setTextSize(TypedValue.COMPLEX_UNIT_SP,height/20);
 	 }
 	 
 	 return v;
