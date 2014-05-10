@@ -69,7 +69,7 @@ public class SequenceActivity extends Activity{
 		adapter = new CustomArrayAdapter(this, R.layout.sequence_text_view,
 				arrayList);
 		
-		//ImageAdapter imageAdapter = new ImageAdapter(this);
+		
 		gridview.setAdapter(adapter);
 		
 		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
