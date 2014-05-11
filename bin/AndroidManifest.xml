@@ -11,9 +11,9 @@
 
 <supports-screens android:smallScreens="true"
                       android:normalScreens="true"
-                      android:largeScreens="false"
-                      android:xlargeScreens="false"
-                      android:resizeable="false"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true"
+                      
                        />
     <application
         android:allowBackup="true"

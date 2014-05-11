@@ -84,8 +84,6 @@ public class ResultsActivity extends Activity implements OnExchangeHttpData{
 			}
 			double convertUnits = Double.parseDouble(unitsConsumed);
 			unitsConsumed = String.format(Locale.UK, "%.2f", convertUnits);
-			Log.i("shrimp", "test");
-			Log.i("shrimp", "'"+unitsConsumed+"'");
 			if (unitsConsumed.equals("0.00")) {
 			
 				calibrationConfirmation();
