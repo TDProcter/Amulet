@@ -77,11 +77,17 @@ public class ResultsActivity extends Activity implements OnExchangeHttpData{
 	
 	public void postButton(View v){
 		if (!calibrate) {
-			TextView unitsTextView = (TextView) findViewById(R.id.txtResultsUnitsConsumed);
-			String unitsConsumed = unitsTextView.getText().toString();
+			EditText unitsEditText = (EditText) findViewById(R.id.txtResultsUnitsConsumed);
+			String unitsConsumed = unitsEditText.getText().toString();
+			if(unitsConsumed.trim().equals("")){
+				unitsConsumed = "0";
+			}
 			double convertUnits = Double.parseDouble(unitsConsumed);
 			unitsConsumed = String.format(Locale.UK, "%.2f", convertUnits);
-			if (unitsConsumed.equals("0")) {
+			Log.i("shrimp", "test");
+			Log.i("shrimp", "'"+unitsConsumed+"'");
+			if (unitsConsumed.equals("0.00")) {
+			
 				calibrationConfirmation();
 			} else {
 				postToServer(unitsConsumed);
@@ -105,18 +111,18 @@ private void calibrationConfirmation(){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Sobre i see...");
-	    builder.setMessage("Have you not been Drinking? Would you like to overwrite your calibration score?");
-	    builder.setPositiveButton("Yeah, I did much better this time!", new DialogInterface.OnClickListener() {
+	    builder.setMessage("Would you like to overwrite your calibration score?");
+	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	        	calibrate();
 	        }
 	     });
-	    builder.setNegativeButton("I lied, I have been drinking, I'll go back and type it in. :(", new DialogInterface.OnClickListener() {
+	    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            // do nothing
 	        }
 	     });
-	    builder.setNeutralButton("Nah, that was rubbish..", new DialogInterface.OnClickListener() {
+	    builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	        	startMenu();
 	        }

@@ -83,8 +83,8 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		screenWidth = canvas.getWidth();
 		
 		
-		playerSize = (playerSize*screenWidth) / 1200;
-		badGuySize = (badGuySize*screenWidth) / 1200;
+		playerSize = screenWidth/6;
+		badGuySize = (playerSize*5)/2;
 		Paint playerColour = new Paint();
 		playerColour.setColor(0xffffffff);
 		pilotPlayer = new PilotShape((screenWidth - playerSize),
@@ -106,9 +106,9 @@ public class PilotSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 			
 			do {
 				SecureRandom random = new SecureRandom();
-				height = 50* (random.nextInt(10) + 1);
-				width = 50 * (random.nextInt(10) + 1);
-			} while (height+width != badGuySize);
+				height = random.nextInt(badGuySize) + 1;
+				width = badGuySize-height;
+			} while (height > screenHeight || width > screenWidth);
 			//Log.i("size", height + ",  " + width);
 			badGuys[i] = new PilotShape((badGuySize)+1, (badGuySize)+1, width, height,
 					enemyColour, new Point(dirX*speed, dirY*speed));

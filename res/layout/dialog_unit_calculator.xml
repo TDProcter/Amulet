@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayoutResults"
+    android:id="@+id/RelativeLayoutUnitCalc"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
     android:orientation="vertical" >
-
-    <Spinner
-        android:id="@+id/spnCalcDrinks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/spnCalcSize"
-        android:layout_centerVertical="true"
-        android:ems="10" />
-
-    
-
-    <Spinner
-        android:id="@+id/spnCalcSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/nbrCalcQuantity"
-         />
 
     <NumberPicker
         android:id="@+id/nbrCalcQuantity"
@@ -29,15 +12,58 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:width="100dip"/>
+        android:width="100dip" />
 
-    <TextView
-        android:id="@+id/lblCalcUnits"
+    
+
+    
+
+    <LinearLayout
+        android:id="@+id/lnrUnitCalcLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nbrCalcQuantity"
+        
+        android:orientation="vertical" >
+        
+        <Spinner
+        android:id="@+id/spnCalcDrinks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/spnCalcDrinks"
+        android:layout_alignParentLeft="true"
+        android:ems="10" />
+
+    <Spinner
+        android:id="@+id/spnCalcSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spnCalcDrinks"
+        android:layout_alignParentLeft="true"
+         />
+
+
+    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+        <TextView
+        android:id="@+id/lblCalcUnitsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+        android:id="@+id/lblCalcUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="###"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
